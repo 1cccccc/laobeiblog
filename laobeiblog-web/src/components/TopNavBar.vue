@@ -75,16 +75,19 @@
                 <svg class="icon icon-zhifeiji" aria-hidden="true">
                   <use xlink:href="#icon-zhifeiji"></use>
                 </svg>
-                <p class="content">关于
+                <p class="content">
+                  关于
                   <el-icon :size="18">
                     <CaretBottom />
                   </el-icon>
                 </p>
               </li>
               <template #dropdown>
-                <el-dropdown-menu >
-                    <el-dropdown-item>Gitee</el-dropdown-item>
-                    <el-dropdown-item>Github</el-dropdown-item>
+                <el-dropdown-menu>
+                  <el-dropdown-item>Gitee</el-dropdown-item>
+                  <a href="https://github.com/1cccccc/-">
+                    <el-dropdown-item> Github </el-dropdown-item>
+                  </a>
                   <router-link to="/explain">
                     <el-dropdown-item>使用说明</el-dropdown-item>
                   </router-link>
@@ -125,6 +128,7 @@
   margin-right: 0.3rem;
 }
 #TopNavBar {
+  z-index: 10;
   position: absolute;
   top: 0;
   width: 100vw;
@@ -155,7 +159,7 @@
   width: 100%;
   height: 0.2rem;
   display: block;
-  background-color: #80C8F8;
+  background-color: #80c8f8;
   position: absolute;
   left: -100%;
   bottom: 0;
@@ -170,6 +174,8 @@
   margin: 0 auto;
   color: var(--text-color);
   font-weight: 900;
+  cursor: default;
+  transform: translateY(10%);
 }
 .content {
   width: fit-content;

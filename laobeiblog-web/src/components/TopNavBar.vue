@@ -1,0 +1,181 @@
+<template>
+  <el-row id="TopNavBar" justify="space-between">
+    <el-col :span="3">
+      <h2 id="Title">捞杯</h2>
+    </el-col>
+    <el-col :span="12">
+      <ul id="Navigation">
+        <el-row justify="space-between">
+          <el-col :span="3">
+            <li>
+              <svg class="icon icon-Magnifier" aria-hidden="true">
+                <use xlink:href="#icon-Magnifier"></use>
+              </svg>
+              <p class="content">搜索</p>
+            </li>
+          </el-col>
+
+          <el-col :span="3">
+            <router-link to="/">
+              <li>
+                <svg class="icon icon-shouye" aria-hidden="true">
+                  <use xlink:href="#icon-shouye"></use>
+                </svg>
+                <p class="content">首页</p>
+              </li>
+            </router-link>
+          </el-col>
+
+          <el-col :span="3">
+            <el-dropdown size="large" :hide-on-click="false">
+              <li>
+                <svg class="icon icon-gongneng" aria-hidden="true">
+                  <use xlink:href="#icon-gongneng"></use>
+                </svg>
+                <p class="content">
+                  功能
+                  <el-icon :size="18">
+                    <CaretBottom />
+                  </el-icon>
+                </p>
+              </li>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <router-link to="/archives">
+                    <el-dropdown-item>归档</el-dropdown-item>
+                  </router-link>
+                  <router-link to="/category">
+                    <el-dropdown-item>分类</el-dropdown-item>
+                  </router-link>
+                  <router-link to="/tags">
+                    <el-dropdown-item>标签</el-dropdown-item>
+                  </router-link>
+                  <router-link to="/albums">
+                    <el-dropdown-item>相册</el-dropdown-item>
+                  </router-link>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
+          </el-col>
+
+          <el-col :span="3">
+            <router-link to="/links">
+              <li>
+                <svg class="icon icon-lianjie" aria-hidden="true">
+                  <use xlink:href="#icon-lianjie"></use>
+                </svg>
+                <p class="content">友链</p>
+              </li>
+            </router-link>
+          </el-col>
+
+          <el-col :span="3">
+            <el-dropdown size="large" :hide-on-click="false">
+              <li>
+                <svg class="icon icon-zhifeiji" aria-hidden="true">
+                  <use xlink:href="#icon-zhifeiji"></use>
+                </svg>
+                <p class="content">关于
+                  <el-icon :size="18">
+                    <CaretBottom />
+                  </el-icon>
+                </p>
+              </li>
+              <template #dropdown>
+                <el-dropdown-menu >
+                    <el-dropdown-item>Gitee</el-dropdown-item>
+                    <el-dropdown-item>Github</el-dropdown-item>
+                  <router-link to="/explain">
+                    <el-dropdown-item>使用说明</el-dropdown-item>
+                  </router-link>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
+          </el-col>
+
+          <el-col :span="3">
+            <router-link to="/message">
+              <li>
+                <svg class="icon icon-xinxi" aria-hidden="true">
+                  <use xlink:href="#icon-xinxi"></use>
+                </svg>
+                <p class="content">留言</p>
+              </li>
+            </router-link>
+          </el-col>
+
+          <el-col :span="3">
+            <li @mouseenter="enter($event)">
+              <svg class="icon icon-yonghu" aria-hidden="true">
+                <use xlink:href="#icon-yonghu"></use>
+              </svg>
+              <p class="content">登录</p>
+            </li>
+          </el-col>
+        </el-row>
+      </ul>
+    </el-col>
+  </el-row>
+</template>
+
+<script setup></script>
+
+<style scoped>
+.icon {
+  margin-right: 0.3rem;
+}
+#TopNavBar {
+  position: absolute;
+  top: 0;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0);
+  --text-color: #eee;
+  --text-size: 15px;
+}
+#Navigation {
+  position: relative;
+  top: 50%;
+  transform: translateY(-25%);
+}
+#Navigation .icon {
+  width: 1.5em;
+  height: 1.5em;
+}
+#Navigation li {
+  width: fit-content;
+  list-style: none;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  padding-bottom: 0.5rem;
+  cursor: pointer;
+}
+#Navigation li::after {
+  content: "";
+  width: 100%;
+  height: 0.2rem;
+  display: block;
+  background-color: #80C8F8;
+  position: absolute;
+  left: -100%;
+  bottom: 0;
+  transition: left ease 0.3s;
+}
+#Navigation li:hover::after {
+  left: 0%;
+}
+
+#Title {
+  width: fit-content;
+  margin: 0 auto;
+  color: var(--text-color);
+  font-weight: 900;
+}
+.content {
+  width: fit-content;
+  /* text-align: center; */
+  color: var(--text-color);
+  font-size: var(--text-size);
+  font-weight: 900;
+}
+</style>

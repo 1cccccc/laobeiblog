@@ -1,7 +1,9 @@
 <template>
   <el-row id="TopNavBar" justify="space-between" ref="TopNavBar">
     <el-col :span="3">
-      <h2 id="Title">捞杯</h2>
+      <router-link to="/">
+        <h2 id="Title">捞杯</h2>
+      </router-link>
     </el-col>
     <el-col :span="12">
       <ul id="Navigation">
@@ -132,24 +134,22 @@ window.onscroll = () => {
   //屏幕向下滚动
   if (Y > 0) {
     TopNavBar.value.$el.classList.add("active");
-  } else {//向上滚动
+  } else {
+    //向上滚动
     TopNavBar.value.$el.classList.remove("active");
-    if(document.documentElement.scrollTop>100){
-      console.log(document.documentElement.scrollTop)
-      TopNavBar.value.$el.style.backgroundColor="rgba(255,255,255,.7)";
-      TopNavBar.value.$el.style.setProperty("--text-color","#5E5B5A")
-    }else{
-      TopNavBar.value.$el.style.backgroundColor="rgba(255,255,255,0)";
-      TopNavBar.value.$el.style.setProperty("--text-color","#eee")
+    if (document.documentElement.scrollTop > 100) {
+      TopNavBar.value.$el.style.backgroundColor = "rgba(255,255,255,.7)";
+      TopNavBar.value.$el.style.setProperty("--text-color", "#5E5B5A");
+    } else {
+      TopNavBar.value.$el.style.backgroundColor = "rgba(255,255,255,0)";
+      TopNavBar.value.$el.style.setProperty("--text-color", "#eee");
     }
   }
 
   scrollTopLS = document.documentElement.scrollTop;
 };
 
-function enter(e){
-
-}
+function enter(e) {}
 </script>
 
 <style scoped>
@@ -158,7 +158,7 @@ function enter(e){
   width: 100vw;
   background-color: rgba(0, 0, 0, 0);
   padding-bottom: 0.5em;
-  transition: all .5s ease;
+  transition: all 0.5s ease;
   position: fixed;
   top: 0;
   --text-color: #eee;
@@ -212,6 +212,7 @@ function enter(e){
   font-weight: 900;
   cursor: default;
   transform: translateY(10%);
+  cursor: pointer;
 }
 .content {
   width: fit-content;

@@ -110,7 +110,7 @@
           </el-col>
 
           <el-col :span="3">
-            <li @mouseenter="enter($event)">
+            <li @click="Login()">
               <svg class="icon icon-yonghu" aria-hidden="true">
                 <use xlink:href="#icon-yonghu"></use>
               </svg>
@@ -132,8 +132,10 @@ let TopNavBar = ref(null);
 let scrollTopLS = 0;
 
 const Search=()=>{
-  store.dialogVisible=!store.dialogVisible;
-  // console.log(store.dialogVisible,"Search")
+  store.SearchVariable=!store.SearchVariable;
+}
+const Login=()=>{
+  store.LoginVariable=!store.LoginVariable;
 }
 
 window.onscroll = () => {
@@ -155,10 +157,6 @@ window.onscroll = () => {
 
   scrollTopLS = document.documentElement.scrollTop;
 };
-
-
-//登录按钮按下
-function enter(e) {}
 </script>
 
 <style scoped>

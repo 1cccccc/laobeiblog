@@ -3,7 +3,8 @@ import {ref} from "vue"
 
 export const useMainStore =defineStore("counter", () => {
   const count = ref(0);
-  const dialogVisible=ref(false);
+  const SearchVariable=ref(false);
+  const LoginVariable=ref(false);
 
-  return { count,dialogVisible };
+  return { count,SearchVariable,LoginVariable };
 });

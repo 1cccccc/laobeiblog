@@ -4,11 +4,13 @@
   <router-view></router-view>
   <!-- </transition> -->
   <Search />
+  <Login />
 </template>
 
 <script setup>
 import TopNavBar from "./components/TopNavBar.vue";
 import Search from "./components/Search.vue";
+import Login from "./components/Login.vue";
 </script>
 
 <style>

@@ -1,11 +1,9 @@
 <template>
   <div id="Search">
-    <button @click="dialogVisible = true" class="btn">button</button>
-
     <el-dialog
       title="本地搜索"
-      width="60%"
-      v-model="dialogVisible"
+      width="50%"
+      v-model="SearchVariable"
       center
       @close="closeDialog()"
     >
@@ -68,7 +66,7 @@ import { useMainStore } from "@/store/index";
 const store = useMainStore();
 
 let input = ref("");
-let dialogVisible = ref(false);
+let SearchVariable = ref(false);
 let searchresults = reactive([
   {
     title: "文章标题",
@@ -106,20 +104,20 @@ let searchresults = reactive([
 ]);
 
 watch(
-  () => store.dialogVisible,
+  () => store.SearchVariable,
   (newV, oldV) => {
-    dialogVisible.value = newV;
+    SearchVariable.value = newV;
   }
 );
 
 const closeDialog = () => {
-  store.dialogVisible = false;
+  store.SearchVariable = false;
 };
 </script>
 
 <style scoped>
 .searchframe {
-  height: 60vh;
+  height: 65vh;
 }
 .searchtitle {
   padding-bottom: 1.5em;

@@ -227,48 +227,6 @@ const opengithub = () => {};
 </script>
 
 <style scoped>
-#followUs {
-  margin-top: 1.5em;
-  padding: 2em !important;
-}
-.followUs-title {
-  margin-bottom: 1em;
-  text-align: center;
-}
-.followUs-title svg {
-  font-size: 3em;
-  color: #ff3838;
-  margin-right: 0.1em;
-}
-.followUs-title h3 {
-  font-size: 1.7em;
-  display: inline-block;
-  transform: translateY(-12%);
-}
-.followUs-content div {
-  margin-bottom: 1em;
-  position: relative;
-  border: solid 1px #ccc;
-  padding: 0.3em;
-  cursor: pointer;
-}
-.followUs-content svg {
-  font-size: 2em;
-  margin-right: 0.3em;
-}
-.followUs-content p {
-  font-size: 1em;
-  display: inline-block;
-  transform: translateY(-20%);
-}
-
-.archives-title {
-  font-weight: bolder;
-}
-.archives-num {
-  font-size: 1.3em;
-}
-
 #Home {
   width: 100vw;
   --label-border-radius: 0.5em;
@@ -446,5 +404,47 @@ const opengithub = () => {};
 }
 .user-describe {
   margin: 0 0 1em 0;
+}
+
+#followUs {
+  margin-top: 1.5em;
+  padding: 2em !important;
+}
+.followUs-title {
+  margin-bottom: 1em;
+  text-align: center;
+}
+.followUs-title svg {
+  font-size: 3em;
+  color: #ff3838;
+  margin-right: 0.1em;
+}
+.followUs-title h3 {
+  font-size: 1.7em;
+  display: inline-block;
+  transform: translateY(-12%);
+}
+.followUs-content div {
+  margin-bottom: 1em;
+  position: relative;
+  border: solid 1px #ccc;
+  padding: 0.3em;
+  cursor: pointer;
+}
+.followUs-content svg {
+  font-size: 2em;
+  margin-right: 0.3em;
+}
+.followUs-content p {
+  font-size: 1em;
+  display: inline-block;
+  transform: translateY(-20%);
+}
+
+.archives-title {
+  font-weight: bolder;
+}
+.archives-num {
+  font-size: 1.3em;
 }
 </style>

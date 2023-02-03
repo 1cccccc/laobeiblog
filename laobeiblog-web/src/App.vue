@@ -1,16 +1,20 @@
 <template>
   <TopNavBar />
   <!-- <transition name="fade"> -->
-    <router-view></router-view>
+  <router-view></router-view>
   <!-- </transition> -->
+  <Search />
 </template>
 
 <script setup>
 import TopNavBar from "./components/TopNavBar.vue";
+import Search from "./components/Search.vue";
 </script>
 
 <style>
 #app {
+  display: block !important;
+  box-sizing: content-box;
   max-width: 100vw !important;
   padding: 0 !important;
   margin: 0 !important;
@@ -26,13 +30,16 @@ import TopNavBar from "./components/TopNavBar.vue";
   overflow: hidden;
 }
 
-.fade-enter-active,.fade-leave-active{
-  transition: all .5s ease;
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.5s ease;
 }
-.fade-enter-form,.fade-leave-to{
-    transform: translateY(-100px);
+.fade-enter-form,
+.fade-leave-to {
+  transform: translateY(-100px);
 }
-.fade-enter-to,.fade-leave-form{
+.fade-enter-to,
+.fade-leave-form {
   transform: translateY(0px);
 }
 </style>

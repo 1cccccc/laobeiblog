@@ -1,15 +1,9 @@
-import { createStore } from 'vuex'
+import { defineStore } from "pinia";
+import {ref} from "vue"
 
-const store=createStore({
-    state(){
-        return {
-            sum:0
-        }
-    },
-    mutations:{
-        increment(state){
-            state.sum++;
-        }
-    }
+export const useMainStore =defineStore("counter", () => {
+  const count = ref(0);
+  const dialogVisible=ref(false);
+
+  return { count,dialogVisible };
 });
-export default store;

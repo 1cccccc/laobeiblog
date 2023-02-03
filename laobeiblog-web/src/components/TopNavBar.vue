@@ -9,7 +9,7 @@
       <ul id="Navigation">
         <el-row justify="space-between">
           <el-col :span="3">
-            <li>
+            <li @click="Search()">
               <svg class="icon icon-Magnifier" aria-hidden="true">
                 <use xlink:href="#icon-Magnifier"></use>
               </svg>
@@ -125,9 +125,16 @@
 
 <script setup>
 import { ref } from "vue";
-let TopNavBar = ref(null);
+import {useMainStore} from "@/store/index"
 
+let store=useMainStore();
+let TopNavBar = ref(null);
 let scrollTopLS = 0;
+
+const Search=()=>{
+  store.dialogVisible=!store.dialogVisible;
+  // console.log(store.dialogVisible,"Search")
+}
 
 window.onscroll = () => {
   let Y = document.documentElement.scrollTop - scrollTopLS;
@@ -149,6 +156,8 @@ window.onscroll = () => {
   scrollTopLS = document.documentElement.scrollTop;
 };
 
+
+//登录按钮按下
 function enter(e) {}
 </script>
 

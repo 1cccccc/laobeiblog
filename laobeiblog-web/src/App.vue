@@ -1,16 +1,19 @@
 <template>
-  <TopNavBar />
-  <!-- <transition name="fade"> -->
-  <router-view></router-view>
-  <!-- </transition> -->
-  <Search />
-  <Login />
+  
+    <TopNavBar />
+    <!-- <transition name="fade"> -->
+    <router-view></router-view>
+    <!-- </transition> -->
+    <Search />
+    <Login />
+    <Register />
 </template>
 
 <script setup>
 import TopNavBar from "./components/TopNavBar.vue";
 import Search from "./components/Search.vue";
 import Login from "./components/Login.vue";
+import Register from "./components/Register.vue";
 </script>
 
 <style>

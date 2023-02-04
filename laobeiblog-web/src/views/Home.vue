@@ -1,162 +1,166 @@
 <template>
   <div id="Home">
-    <el-row>
-      <el-col>
-        <el-row>
-          <el-col :span="24">
-            <img
-              src="@/assets/img/1536a1ad880511ebb6edd017c2d2eca2.jpg"
-              id="bg"
-              ref="bg"
-            />
-            <div id="slogan">
-              <h1 id="title">捞杯博客</h1>
-              <p id="titledescribe">欲买桂花同醉酒，终不似，少年游。</p>
-            </div>
-            <svg
-              class="icon icon-xiangxia"
-              aria-hidden="true"
-              @click="scrollDown()"
-            >
-              <use xlink:href="#icon-xiangxia"></use>
-            </svg>
-          </el-col>
-        </el-row>
-
-        <el-row :gutter="20" id="content" justify="center">
-          <el-col :span="12" class="info_box">
-            <el-row id="info">
-              <el-col>
-                <el-row>
-                  <el-col :span="1">
-                    <svg class="icon icon-liangdang" aria-hidden="true">
-                      <use xlink:href="#icon-lingdang"></use>
-                    </svg>
-                  </el-col>
-                  <el-col :span="22">
-                    <p>
-                      如入您眼，请上Github给仓库点上您的小星星，谢谢您的支持!
-                    </p>
-                  </el-col>
-                </el-row>
-              </el-col>
-            </el-row>
-
-            <!-- 循环文章列表 -->
-            <el-row class="label" v-for="article in articles">
-              <el-col class="label-left" :span="10">
-                <img
-                  src="@/assets/img/8373377e69c3499d904877fab8c6f329.jpg"
-                  alt="8373377e69c3499d904877fab8c6f329.jpg"
-                  class="label-img"
-                />
-              </el-col>
-              <el-col :span="12" class="label-right">
-                <h2>{{ article.title }}</h2>
-                <div>
-                  <svg
-                    class="icon icon-tuding"
-                    aria-hidden="true"
-                    v-if="article.top"
-                  >
-                    <use xlink:href="#icon-tuding" v-if="article.top"></use>
-                  </svg>
-                  <span v-if="article.top">置顶</span>
-                  <svg class="icon icon-rili" aria-hidden="true">
-                    <use xlink:href="#icon-rili"></use>
-                  </svg>
-                  <span>{{ article.createtime }}</span>
-                  <svg class="icon icon-icon" aria-hidden="true">
-                    <use xlink:href="#icon-icon"></use>
-                  </svg>
-                  <span>{{ article.labelname }}</span>
-                </div>
-                <p class="label-describe">
-                  {{ article.content }}
-                </p>
-              </el-col>
-            </el-row>
-          </el-col>
-
-          <el-col :span="4" id="sidebar">
-            <!-- 用户信息栏 -->
-            <div id="user-info">
-              <div class="user-img">
-                <img :src="userinfo.userlogourl" :alt="userinfo.userlogourl" />
+      <el-row>
+        <el-col>
+          <el-row>
+            <el-col :span="24">
+              <img
+                src="@/assets/img/1536a1ad880511ebb6edd017c2d2eca2.jpg"
+                id="bg"
+                ref="bg"
+              />
+              <div id="slogan">
+                <h1 id="title">捞杯博客</h1>
+                <p id="titledescribe">欲买桂花同醉酒，终不似，少年游。</p>
               </div>
-              <h2 class="user-name">{{ userinfo.username }}</h2>
-              <p class="user-describe">{{ userinfo.userslogan }}</p>
-              <el-row justify="space-between">
-                <el-col :span="8">
-                  <h3 class="archives-title">文章</h3>
-                  <p class="archives-num">{{ userinfo.articlenum }}</p>
-                </el-col>
-                <el-col :span="8">
-                  <h3 class="archives-title">分类</h3>
-                  <p class="archives-num">{{ userinfo.classificationnum }}</p>
-                </el-col>
-                <el-col :span="8">
-                  <h3 class="archives-title">标签</h3>
-                  <p class="archives-num">{{ userinfo.labelnum }}</p>
+              <svg
+                class="icon icon-xiangxia"
+                aria-hidden="true"
+                @click="scrollDown()"
+              >
+                <use xlink:href="#icon-xiangxia"></use>
+              </svg>
+            </el-col>
+          </el-row>
+
+          <el-row :gutter="20" id="content" justify="center">
+            <el-col :span="12" class="info_box">
+              <el-row id="info">
+                <el-col>
+                  <el-row>
+                    <el-col :span="1">
+                      <svg class="icon icon-liangdang" aria-hidden="true">
+                        <use xlink:href="#icon-lingdang"></use>
+                      </svg>
+                    </el-col>
+                    <el-col :span="22">
+                      <p>
+                        如入您眼，请上Github给仓库点上您的小星星，谢谢您的支持!
+                      </p>
+                    </el-col>
+                  </el-row>
                 </el-col>
               </el-row>
-              <el-button
-                type="primary"
-                class="bookmark"
-                :icon="Discount"
-                @click="joinbookmark()"
-                >加入书签</el-button
-              >
-            </div>
 
-            <div id="followUs">
-              <div class="followUs-title">
-                <svg class="icon icon-yonghu" aria-hidden="true">
-                  <use xlink:href="#icon-yonghu"></use>
-                </svg>
-                <h3>关注我们</h3>
+              <!-- 循环文章列表 -->
+              <el-row class="label" v-for="article in articles">
+                <el-col class="label-left" :span="10">
+                  <img
+                    src="@/assets/img/8373377e69c3499d904877fab8c6f329.jpg"
+                    alt="8373377e69c3499d904877fab8c6f329.jpg"
+                    class="label-img"
+                  />
+                </el-col>
+                <el-col :span="12" class="label-right">
+                  <h2>{{ article.title }}</h2>
+                  <div>
+                    <svg
+                      class="icon icon-tuding"
+                      aria-hidden="true"
+                      v-if="article.top"
+                    >
+                      <use xlink:href="#icon-tuding" v-if="article.top"></use>
+                    </svg>
+                    <span v-if="article.top">置顶</span>
+                    <svg class="icon icon-rili" aria-hidden="true">
+                      <use xlink:href="#icon-rili"></use>
+                    </svg>
+                    <span>{{ article.createtime }}</span>
+                    <svg class="icon icon-icon" aria-hidden="true">
+                      <use xlink:href="#icon-icon"></use>
+                    </svg>
+                    <span>{{ article.labelname }}</span>
+                  </div>
+                  <p class="label-describe">
+                    {{ article.content }}
+                  </p>
+                </el-col>
+              </el-row>
+            </el-col>
+
+            <el-col :span="4" id="sidebar">
+              <!-- 用户信息栏 -->
+              <div id="user-info">
+                <div class="user-img">
+                  <img
+                    :src="userinfo.userlogourl"
+                    :alt="userinfo.userlogourl"
+                  />
+                </div>
+                <h2 class="user-name">{{ userinfo.username }}</h2>
+                <p class="user-describe">{{ userinfo.userslogan }}</p>
+                <el-row justify="space-between">
+                  <el-col :span="8">
+                    <h3 class="archives-title">文章</h3>
+                    <p class="archives-num">{{ userinfo.articlenum }}</p>
+                  </el-col>
+                  <el-col :span="8">
+                    <h3 class="archives-title">分类</h3>
+                    <p class="archives-num">{{ userinfo.classificationnum }}</p>
+                  </el-col>
+                  <el-col :span="8">
+                    <h3 class="archives-title">标签</h3>
+                    <p class="archives-num">{{ userinfo.labelnum }}</p>
+                  </el-col>
+                </el-row>
+                <el-button
+                  type="primary"
+                  class="bookmark"
+                  :icon="Discount"
+                  round
+                  @click="joinbookmark()"
+                  >加入书签</el-button
+                >
               </div>
-              <div class="followUs-content">
-                <div>
-                  <svg class="icon icon-QQ" aria-hidden="true">
-                    <use xlink:href="#icon-QQ"></use>
-                  </svg>
-                  <p>{{ aboutus.qq }}</p>
-                </div>
 
-                <div>
-                  <svg class="icon icon-xinfeng" aria-hidden="true">
-                    <use xlink:href="#icon-xinfeng"></use>
+              <div id="followUs">
+                <div class="followUs-title">
+                  <svg class="icon icon-yonghu" aria-hidden="true">
+                    <use xlink:href="#icon-yonghu"></use>
                   </svg>
-                  <p>{{ aboutus.email }}</p>
+                  <h3>关注我们</h3>
                 </div>
+                <div class="followUs-content">
+                  <div>
+                    <svg class="icon icon-QQ" aria-hidden="true">
+                      <use xlink:href="#icon-QQ"></use>
+                    </svg>
+                    <p>{{ aboutus.qq }}</p>
+                  </div>
 
-                <div @click="opengithub">
-                  <svg class="icon icon-github" aria-hidden="true">
-                    <use xlink:href="#icon-github"></use>
-                  </svg>
-                  <p>{{ aboutus.github }}</p>
-                </div>
+                  <div>
+                    <svg class="icon icon-xinfeng" aria-hidden="true">
+                      <use xlink:href="#icon-xinfeng"></use>
+                    </svg>
+                    <p>{{ aboutus.email }}</p>
+                  </div>
 
-                <div @click="opengitee">
-                  <svg class="icon icon-gitee" aria-hidden="true">
-                    <use xlink:href="#icon-gitee"></use>
-                  </svg>
-                  <p>{{ aboutus.gitee }}</p>
-                </div>
+                  <div @click="opengithub">
+                    <svg class="icon icon-github" aria-hidden="true">
+                      <use xlink:href="#icon-github"></use>
+                    </svg>
+                    <p>{{ aboutus.github }}</p>
+                  </div>
 
-                <div>
-                  <svg class="icon icon-wechat" aria-hidden="true">
-                    <use xlink:href="#icon-wechat"></use>
-                  </svg>
-                  <p>{{ aboutus.wechat }}</p>
+                  <div @click="opengitee">
+                    <svg class="icon icon-gitee" aria-hidden="true">
+                      <use xlink:href="#icon-gitee"></use>
+                    </svg>
+                    <p>{{ aboutus.gitee }}</p>
+                  </div>
+
+                  <div>
+                    <svg class="icon icon-wechat" aria-hidden="true">
+                      <use xlink:href="#icon-wechat"></use>
+                    </svg>
+                    <p>{{ aboutus.wechat }}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-          </el-col>
-        </el-row>
-      </el-col>
-    </el-row>
+            </el-col>
+          </el-row>
+        </el-col>
+      </el-row>
   </div>
 </template>
 
@@ -209,9 +213,9 @@ const joinbookmark = () => {
   });
 };
 
-let bg=ref(null)
+let bg = ref(null);
 const scrollDown = () => {
-  let bgParentHeight=bg.value.parentNode.clientHeight;//上面背景页面的高度
+  let bgParentHeight = bg.value.parentNode.clientHeight; //上面背景页面的高度
 
   let time = setInterval(() => {
     if (document.documentElement.scrollTop == bgParentHeight) {

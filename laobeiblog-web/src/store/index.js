@@ -5,6 +5,8 @@ export const useMainStore =defineStore("counter", () => {
   const count = ref(0);
   const SearchVariable=ref(false);
   const LoginVariable=ref(false);
+  const RegisterVariable=ref(false);
 
-  return { count,SearchVariable,LoginVariable };
+  const returnObject={ count,SearchVariable,LoginVariable,RegisterVariable };
+  return returnObject;
 });

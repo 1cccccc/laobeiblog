@@ -15,6 +15,7 @@
           prefix-icon="Search"
           size="large"
           class="searchtitle"
+          @input="search($event)"
         />
         <el-scrollbar>
           <p v-if="searchresults.length == 0">找不到您查询的内容</p>
@@ -102,6 +103,11 @@ let searchresults = reactive([
     releasetime: "2023/2/3",
   },
 ]);
+
+const search=(e)=>{
+  //通过事件对象input框的value请求数据
+}
+
 
 watch(
   () => store.SearchVariable,

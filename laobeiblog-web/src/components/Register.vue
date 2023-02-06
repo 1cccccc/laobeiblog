@@ -9,6 +9,7 @@
       :destroy-on-close="true"
     >
       <div id="registerfarme">
+        <!-- 邮箱 -->
         <div class="inputframe">
           <p>邮箱</p>
           <div>
@@ -34,37 +35,39 @@
             "
             ><Close
           /></el-icon>
-          <p>邮箱格式错误</p>
+          <p v-if="!registerinforeg.emailflag">邮箱格式错误</p>
         </div>
 
+        <!-- 昵称 -->
         <div class="inputframe">
-        <p>昵称</p>
-        <div>
-          <input
-            type="text"
-            placeholder="请输入您的昵称"
-            name="nickname"
-            v-model="registerinfo.nickname"
-            @focus="inputfocus($event, 95)"
-            @blur="blurfocus($event)"
-            autocomplete="off"
-          />
-          <div class="underline"></div>
+          <p>昵称</p>
+          <div>
+            <input
+              type="text"
+              placeholder="请输入您的昵称"
+              name="nickname"
+              v-model="registerinfo.nickname"
+              @focus="inputfocus($event, 95)"
+              @blur="blurfocus($event)"
+              autocomplete="off"
+              maxlength="20"
+            />
+            <div class="underline"></div>
+          </div>
+          <el-icon
+            v-if="registerinfo.nickname != ''"
+            size="1.7em"
+            class="clearbtn"
+            @mousedown="
+              registerinfo.nickname != ''
+                ? clearvalue($event)
+                : (registerinfo.nickname = '')
+            "
+            ><Close
+          /></el-icon>
         </div>
-        <el-icon
-          v-if="registerinfo.nickname != ''"
-          size="1.7em"
-          class="clearbtn"
-          @mousedown="
-            registerinfo.nickname != ''
-              ? clearvalue($event)
-              : (registerinfo.nickname = '')
-          "
-          ><Close
-        /></el-icon>
-        <p>邮箱格式错误</p>
-      </div>
 
+        <!-- 电话 -->
         <div class="inputframe">
           <p>电话</p>
           <div>
@@ -90,9 +93,10 @@
             "
             ><Close
           /></el-icon>
-          <p>邮箱格式错误</p>
+          <p v-if="!registerinforeg.phoneflag">电话格式错误</p>
         </div>
 
+        <!-- 验证码 -->
         <div class="inputframe">
           <p>验证码</p>
           <div>
@@ -103,15 +107,23 @@
               v-model="registerinfo.code"
               @focus="inputfocus($event, 80)"
               @blur="blurfocus($event)"
+              maxlength="6"
               autocomplete="off"
             />
             <div class="underline"></div>
           </div>
-          <el-button type="primary" circle size="large" class="sendcodebtn"
+          <el-button
+            type="primary"
+            circle
+            size="large"
+            class="sendcodebtn"
+            @click="sendcode"
             >发送</el-button
           >
+          <p v-if="!registerinforeg.codeflag">验证码应为6位的英文和数字组成</p>
         </div>
 
+        <!-- 密码 -->
         <div class="inputframe">
           <p>密码</p>
           <div>
@@ -121,8 +133,10 @@
               name="password"
               v-model="registerinfo.password"
               @focus="inputfocus($event, 95)"
+              @input="passwordCheck(registerinfo.password)"
               @blur="blurfocus($event)"
               autocomplete="off"
+              maxlength="16"
             />
             <div class="underline"></div>
           </div>
@@ -134,8 +148,13 @@
               <use xlink:href="#icon-yueliang"></use>
             </svg>
           </div>
+          <p>
+            密码由6-16位的数字、英文字母和特殊字符组成，请使用至少两种类型组合
+          </p>
+          <div id="colorblock"></div>
         </div>
 
+        <!-- 确认密码 -->
         <div class="inputframe">
           <p>确认密码</p>
           <div>
@@ -146,6 +165,7 @@
               v-model="registerinfo.confirmpassword"
               @focus="inputfocus($event, 95)"
               @blur="blurfocus($event)"
+              maxlength="16"
             />
             <div class="underline"></div>
           </div>
@@ -157,7 +177,9 @@
               <use xlink:href="#icon-yueliang"></use>
             </svg>
           </div>
-          <p>邮箱格式错误</p>
+          <p v-if="!registerinforeg.confirmpasswordflag">
+            两次输入的密码不一致
+          </p>
         </div>
 
         <button id="registerbtn" @click="login">注册</button>
@@ -165,7 +187,7 @@
 
       <div class="toLogin">
         <span>已有账号？</span>
-        <span @click="login">登录</span>
+        <span @click="login()">登录</span>
       </div>
     </el-dialog>
   </div>
@@ -174,16 +196,55 @@
 <script setup>
 import { reactive, ref, watch } from "vue";
 import { useMainStore } from "@/store/index";
+import { getCurrentInstance } from "vue";
+import { ElMessage } from "element-plus";
 
+const CurrentInstance = getCurrentInstance();
+const InstanceGlobalProp = CurrentInstance.appContext.config.globalProperties;
+const cookie = InstanceGlobalProp.$cookies;
 const store = useMainStore();
 
+//注册信息
 let registerinfo = reactive({
   email: "",
-  phone: "",
-  password: "",
   nickname: "",
-  confirmpassword: ""
+  phone: "",
+  code: "",
+  password: "",
+  confirmpassword: "",
 });
+
+//注册信息校验变量
+let registerinforeg = reactive({
+  emailflag: true,
+  phoneflag: true,
+  codeflag: true,
+  nicknameflag: true,
+  confirmpasswordflag: true,
+});
+
+//密码强度色块颜色
+let grade = ref(0);
+const passwordCheck = (password) => {
+  let colorblock = document.querySelector("#colorblock");
+  let weak = /^(\d{6,16})|([a-z]{6,16})|([A-Z]{6,16})$/; //强度弱，6-10位的纯数字或纯英文
+  let middle = /^(?![\d]+$)(?![a-zA-Z]+$)(?![^\da-zA-Z]+$).{6,16}$/; //强度中，6-10位的数字+英文
+  let strong = /(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9]).{6,16}/; //强度强，6-10位的数字+英文+特殊字符
+
+  if (strong.test(password)) {
+    colorblock.style.backgroundColor = "#32ff7e"; //green
+    grade.value = 3;
+  } else if (middle.test(password)) {
+    colorblock.style.backgroundColor = "#ffaf40"; //yellow
+    grade.value = 2;
+  } else if (weak.test(password)) {
+    colorblock.style.backgroundColor = "#ff4d4d"; //red
+    grade.value = 1;
+  } else {
+    colorblock.style.backgroundColor = "#ff4d4d"; //red
+    grade.value = 0;
+  }
+};
 
 //输入框获得焦点事件
 const inputfocus = (e, num) => {
@@ -203,6 +264,17 @@ const blurfocus = (e) => {
 
   ptitle.style.color = "#000";
   underline.style.width = "0%";
+
+  if (e.target.name == "email") {
+    registerinforeg.emailflag = store.email_reg.test(registerinfo.email);
+  } else if (e.target.name == "phone") {
+    registerinforeg.phoneflag = store.phone_reg.test(registerinfo.phone);
+  } else if (e.target.name == "code") {
+    registerinforeg.codeflag = store.code_reg.test(registerinfo.code);
+  } else if (e.target.name == "confirmpassword") {
+    registerinforeg.confirmpasswordflag =
+      registerinfo.password == registerinfo.confirmpassword;
+  }
 };
 
 //清空输入框按钮点击事件
@@ -238,6 +310,43 @@ const vislblebtnclick = (e) => {
   }
 };
 
+//发送验证码
+const sendcode = () => {
+  if (registerinforeg.phoneflag === false || registerinfo.phone == "") {
+    ElMessage({
+      type: "error",
+      message: `您的电话号码有误`,
+      showClose: true,
+      grouping: true,
+    });
+  } else {
+    let sendcodebtn = document.querySelector(".sendcodebtn");
+    let timestamp = new Date().getTime();
+
+    if (cookie.get("sendcodetimestamp") === null) {
+      //请求后端发送验证码，也可以先发送验证码
+      cookie.set("sendcodetimestamp", timestamp, 60); //发送完验证码做也是可以的
+      ElMessage({
+        type: "success",
+        message: "验证码已发送到您的手机，验证码在五分钟内有效",
+        showClose: true,
+      });
+    } else {
+      let currenttime = new Date().getTime();
+      let timedifference =
+        (currenttime - cookie.get("sendcodetimestamp")) / 1000;
+      ElMessage({
+        type: "error",
+        message: `请不要重复发送验证码，您可以在${Math.round(
+          60 - timedifference
+        )}s后重试`,
+        showClose: true,
+        grouping: true,
+      });
+    }
+  }
+};
+
 //监听store中的数据变化来决定是否打开登录框
 let RegisterVariable = ref(false);
 watch(
@@ -250,6 +359,22 @@ watch(
 //对话框关闭事件
 const closeDialog = () => {
   store.RegisterVariable = false;
+
+  registerinfo = reactive({
+    email: "",
+    phone: "",
+    password: "",
+    nickname: "",
+    confirmpassword: "",
+  });
+
+  registerinforeg = reactive({
+    emailflag: true,
+    phoneflag: true,
+    codeflag: true,
+    nicknameflag: true,
+    confirmpasswordflag: true,
+  });
 };
 
 //跳转登录框
@@ -260,15 +385,12 @@ const login = () => {
 </script>
 
 <style scoped>
-* {
-  overflow: hidden;
-}
 #Register {
   overflow: hidden;
 }
 .inputframe {
   margin-bottom: 2em;
-  --p-font-size: 0.5em;
+  --p-font-size: 0.7em;
   --input-font-size: 1.25em;
   --input-padding: 0.2em;
   --input-width: 95%;
@@ -294,6 +416,15 @@ const login = () => {
 }
 .inputframe:nth-child(4) input {
   width: 80%;
+}
+.inputframe p:last-child {
+  color: red;
+  transform-origin: 0% 0%;
+  transform: scale(0.8);
+  letter-spacing: 0.2em;
+  position: absolute;
+  left: 0;
+  bottom: -37%;
 }
 .inputframe input:focus {
   outline: none;
@@ -369,5 +500,14 @@ const login = () => {
 
 .toLogin span:nth-child(2) {
   cursor: pointer;
+}
+#colorblock {
+  width: 2em;
+  height: 0.5em;
+  position: absolute;
+  left: 0;
+  bottom: -20%;
+  background-color: red;
+  border: solid 1px #000;
 }
 </style>

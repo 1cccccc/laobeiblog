@@ -52,7 +52,7 @@
                   />
                 </el-col>
                 <el-col :span="12" class="label-right">
-                  <h2>{{ article.title }}</h2>
+                  <h2 @click="articledetails(article.articleid)">{{ article.title }}</h2>
                   <div>
                     <svg
                       class="icon icon-tuding"
@@ -171,6 +171,7 @@ import { reactive, ref } from "vue";
 
 let articles = reactive([
   {
+    articleid:0,
     title: "文章标题",
     top: 1,
     createtime: "2023/1/31",
@@ -179,6 +180,7 @@ let articles = reactive([
       "文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容文章内容",
   },
   {
+    articleid:0,
     title: "文章标题",
     top: 0,
     createtime: "2023/1/31",
@@ -199,20 +201,29 @@ let userinfo = reactive({
 
 let aboutus = reactive({
   qq: "2952309223",
-  email: "lb16673514910@qq.com",
+  email: "lb16673514910@163.com",
   github: "https://github.com/1cccccc/-",
   gitee: "https://github.com/1cccccc/-",
   wechat: "lb16673514910",
 });
 
+const articledetails=(articleid)=>{
+  //跳转到文章详情页
+
+  //请求后端文章详情数据
+}
+
+//添加书签按钮
 const joinbookmark = () => {
   ElMessage({
     showClose: true,
+    grouping: true,
     message: "请使用Ctrl+D键加入书签",
     type: "warning",
   });
 };
 
+//向下看按钮
 let bg = ref(null);
 const scrollDown = () => {
   let bgParentHeight = bg.value.parentNode.clientHeight; //上面背景页面的高度

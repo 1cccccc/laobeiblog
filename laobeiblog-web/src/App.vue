@@ -7,6 +7,9 @@
     <Search />
     <Login />
     <Register />
+    <ForgetPassword />
+    <ForgetPasswordSteptwo />
+    <Footer></Footer>
 </template>
 
 <script setup>
@@ -14,6 +17,9 @@ import TopNavBar from "./components/TopNavBar.vue";
 import Search from "./components/Search.vue";
 import Login from "./components/Login.vue";
 import Register from "./components/Register.vue";
+import ForgetPassword from "./components/ForgetPassword.vue";
+import ForgetPasswordSteptwo from "./components/ForgetPasswordSteptwo.vue";
+import Footer from "./components/Footer.vue";
 </script>
 
 <style>

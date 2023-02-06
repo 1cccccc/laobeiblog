@@ -47,6 +47,7 @@
               @focus="inputfocus($event)"
               @blur="blurfocus($event)"
               autocomplete="off"
+              maxlength="16"
             />
             <div class="underline"></div>
           </div>
@@ -63,7 +64,7 @@
         <button id="signbtn" @click="login">上号</button>
         <div id="other">
           <p @click="register()">立即注册</p>
-          <p>忘记密码?</p>
+          <p @click="forgetpassword()">忘记密码?</p>
         </div>
         <div id="socialcontact">
           <el-divider>社交帐号登录</el-divider>
@@ -91,8 +92,15 @@
 import { reactive, ref, watch } from "vue";
 import { useMainStore } from "@/store/index";
 import { Close } from "@element-plus/icons-vue";
+import { ElMessage } from "element-plus";
 
 const store = useMainStore();
+
+//输入框数据绑定对象
+let logininfo = reactive({
+  account: "",
+  password: "",
+});
 
 //监听store中的数据变化来决定是否打开登录框
 let LoginVariable = ref(false);
@@ -109,20 +117,39 @@ const closeDialog = () => {
 
 //登录按钮点击事件
 const login = () => {
+  //校验账号和密码
+  let accoundtype=store.accountCheck(logininfo.account);
+
+  //密码进行加密,rsa
+
+  if(accoundtype=="email"){
+
+  }else if(accoundtype=="phone"){
+
+  }else{
+    ElMessage({
+      type: "error",
+      message: "账号类型异常",
+      grouping: true,
+      showClose: true
+    })
+  }
+
   //收集数据并发送请求
 };
 
-//注册按钮事件
+//打开注册界面
 const register = () => {
   store.RegisterVariable = true;
   store.LoginVariable = false;
 };
 
-//输入框数据绑定对象
-let logininfo = reactive({
-  account: "",
-  password: "",
-});
+//打开忘记密码界面
+const forgetpassword = () => {
+  store.ForgetPasswordVariable = true;
+  store.LoginVariable = false;
+};
+
 
 //输入框获得焦点事件
 const inputfocus = (e) => {

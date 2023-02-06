@@ -1,4 +1,7 @@
 <template>
+    <div id="Archives">
+        
+    </div>
 </template>
 
 <script setup>

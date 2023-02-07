@@ -3,7 +3,7 @@
       <el-row>
         <el-col>
           <el-row>
-            <el-col :span="24">
+            <el-col :span="24" id="head">
               <img
                 src="@/assets/img/1536a1ad880511ebb6edd017c2d2eca2.jpg"
                 id="bg"
@@ -243,6 +243,7 @@ const opengithub = () => {};
 
 <style scoped>
 #Home {
+  overflow: hidden;
   width: 100vw;
   --label-border-radius: 0.5em;
   --info-font-size: 1.2em;
@@ -261,9 +262,11 @@ const opengithub = () => {};
   width: 100%;
   height: 100vh;
 }
-
+#head {
+  width: 100vw;
+  height: 100vh;
+}
 #content {
-  transform: translateY(-6px);
   height: 100vh;
   background-image: linear-gradient(
     to bottom right,

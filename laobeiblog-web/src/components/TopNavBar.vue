@@ -223,9 +223,9 @@ window.onscroll = () => {
 }
 .content {
   width: fit-content;
-  /* text-align: center; */
   color: var(--text-color);
   font-size: var(--text-size);
   font-weight: 900;
+  border: none;
 }
 </style>

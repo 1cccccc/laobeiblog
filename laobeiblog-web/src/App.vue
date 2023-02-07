@@ -1,5 +1,5 @@
 <template>
-  
+  <el-scrollbar style="height: 100vh">
     <TopNavBar />
     <!-- <transition name="fade"> -->
     <router-view></router-view>
@@ -10,6 +10,7 @@
     <ForgetPassword />
     <ForgetPasswordSteptwo />
     <Footer></Footer>
+  </el-scrollbar>
 </template>
 
 <script setup>
@@ -23,7 +24,13 @@ import Footer from "./components/Footer.vue";
 </script>
 
 <style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 #app {
+  width: 100vw;
   display: block !important;
   box-sizing: content-box;
   max-width: 100vw !important;
@@ -31,6 +38,26 @@ import Footer from "./components/Footer.vue";
   margin: 0 !important;
   overflow-x: hidden;
   user-select: none;
+}
+
+body {
+  width: 100% !important;
+  display: block !important;
+}
+a {
+  text-decoration: none;
+}
+a:visited {
+  color: #666;
+}
+.router-link-active {
+  text-decoration: none;
+}
+
+
+
+.el-scrollbar__wrap {
+  overflow-x: hidden;
 }
 
 .icon {

@@ -6,7 +6,6 @@ import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'// Element-ui图标库
 import VueCookies from 'vue-cookies'//vue-cookies
-import './assets/main.css'
 
 
 let app=createApp(App);

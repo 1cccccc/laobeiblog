@@ -11,8 +11,8 @@
 
 <style scoped>
 #Footer {
+    width: 100vw;
     height: 20vh;
-    transform: translateY(-6px);
     background-color: #9eccab;
     color: #fff;
     text-align: center;

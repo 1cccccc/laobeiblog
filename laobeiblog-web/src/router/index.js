@@ -3,10 +3,9 @@ import Home from "../views/Home.vue";
 import Articles from "../views/Articles.vue";
 import Archives from "../views/Archives.vue";
 import Albums from "../views/Albums.vue";
-import AlbumsInfo from "../views/AlbumsInfo.vue";
 import Tags from "../views/Tags.vue";
+import TagsInfo from "../views/TagsInfo.vue";
 import Links from "../views/Links.vue";
-import About from "../views/About.vue";
 import Message from "../views/Message.vue";
 import User from "../views/User.vue";
 import Category from "../views/Category.vue";
@@ -22,14 +21,9 @@ const routes = [
   },
   { path: "/archives", component: Archives, meta: { title: "归档" } },
   { path: "/albums", component: Albums, meta: { title: "相册" } },
-  {
-    path: "/albums/:albumId",
-    component: AlbumsInfo,
-    meta: { title: "图片详情" },
-  },
   { path: "/tags", component: Tags, meta: { title: "标签" } },
+  { path: "/tags/:id", component: TagsInfo, meta: { title: "标签详情" } },
   { path: "/links", component: Links, meta: { title: "友链" } },
-  { path: "/about", component: About, meta: { title: "关于" } },
   { path: "/message", component: Message, meta: { title: "留言" } },
   { path: "/user", component: User, meta: { title: "个人中心" } },
   { path: "/category", component: Category, meta: { title: "分类" } },

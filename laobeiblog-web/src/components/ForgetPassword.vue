@@ -255,6 +255,7 @@ const login = () => {
 }
 #forgetfarme {
   overflow: hidden;
+  padding: 2em;
 }
 
 .inputframe {
@@ -328,7 +329,7 @@ const login = () => {
 
 .sendcodebtn {
   position: absolute;
-  right: 5%;
+  right: 17%;
   top: 50%;
   transform: translate(0%, -50%);
 }

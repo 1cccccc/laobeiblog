@@ -1,15 +1,19 @@
 <template>
   <el-scrollbar style="height: 100vh">
-    <TopNavBar />
+    <TopNavBar /><!-- 头部导航栏 -->
     <!-- <transition name="fade"> -->
-    <router-view></router-view>
+    <router-view></router-view
+    ><!-- 内容 -->
     <!-- </transition> -->
-    <Search />
-    <Login />
-    <Register />
-    <ForgetPassword />
-    <ForgetPasswordSteptwo />
-    <Footer></Footer>
+
+    <Search /><!-- 搜索框 -->
+    <Login /><!--登录框 -->
+    <Register /><!-- 注册框 -->
+    <ForgetPassword /><!-- 忘记密码框 -->
+    <ForgetPasswordSteptwo /><!-- 忘记密码下一步框 -->
+    <CategoryRelation /><!-- 分类关联文章信息框 -->
+    <Footer></Footer
+    ><!-- 页脚 -->
   </el-scrollbar>
 </template>
 
@@ -20,6 +24,7 @@ import Login from "./components/Login.vue";
 import Register from "./components/Register.vue";
 import ForgetPassword from "./components/ForgetPassword.vue";
 import ForgetPasswordSteptwo from "./components/ForgetPasswordSteptwo.vue";
+import CategoryRelation from "./components/CategoryRelation.vue";
 import Footer from "./components/Footer.vue";
 </script>
 
@@ -54,8 +59,6 @@ a:visited {
   text-decoration: none;
 }
 
-
-
 .el-scrollbar__wrap {
   overflow-x: hidden;
 }
@@ -70,7 +73,7 @@ a:visited {
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: all 0.5s ease;
+  transition: all 1.5s ease;
 }
 .fade-enter-form,
 .fade-leave-to {

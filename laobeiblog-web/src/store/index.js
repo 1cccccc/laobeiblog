@@ -8,6 +8,7 @@ export const useMainStore = defineStore("counter", () => {
   const RegisterVariable = ref(false);//注册框
   const ForgetPasswordVariable = ref(false);//找回密码框
   const ForgetPasswordSteptwoVariable = ref(false);//找回密码下一步框
+  const CategoryRelationVariable=ref(false);
   let email_reg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/; //邮箱格式校验正则
   let phone_reg =
     /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/; //电话号码格式校验正则

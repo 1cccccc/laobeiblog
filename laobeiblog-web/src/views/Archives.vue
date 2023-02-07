@@ -76,30 +76,6 @@ let dataobj = reactive({
 </script>
 
 <style scoped>
-.data-title {
-    font-size: 1.2em;
-    color: #666;
-}
-#datainfo h3:first-child{
-    margin-bottom: 1.5em;
-}
-#archives-data {
-  width: 50%;
-  margin-top: 1em;
-  border-radius: var(--label-border-radius);
-  box-shadow: var(--label-box-shadow);
-  transition: var(--laber-transition);
-  background-color: var(--label-backgroud-color);
-  overflow: hidden;
-  margin-bottom: 3em;
-  padding: 4em;
-  padding-bottom: 7em;
-}
-
-#archives-data:hover {
-  box-shadow: var(--label-box-shadow-moveover);
-}
-
 #Archives {
   width: 100vw;
   --label-border-radius: 0.5em;
@@ -107,6 +83,7 @@ let dataobj = reactive({
   --label-box-shadow-moveover: 0px 5px 30px 1px rgba(49, 49, 49, 0.6);
   --label-backgroud-color: #fff;
   --laber-transition: all 200ms linear;
+  overflow: hidden;
 }
 #head {
   color: #fff;
@@ -127,13 +104,30 @@ let dataobj = reactive({
 }
 
 #content {
-  height: 100vh;
   background-image: linear-gradient(
     to bottom right,
     rgba(255, 218, 218, 0.5),
     rgba(196, 255, 232, 0.5)
   );
   padding-top: 2em;
+}
+
+#archives-data {
+  width: 50%;
+  margin-top: 1em;
+  border-radius: var(--label-border-radius);
+  box-shadow: var(--label-box-shadow);
+  transition: var(--laber-transition);
+  background-color: var(--label-backgroud-color);
+  overflow: hidden;
+  margin-bottom: 3em;
+  padding: 4em;
+  padding-bottom: 7em;
+  position: relative;
+}
+
+#archives-data:hover {
+  box-shadow: var(--label-box-shadow-moveover);
 }
 
 .demo-pagination-block {
@@ -148,4 +142,14 @@ let dataobj = reactive({
 .demo-pagination-block .demonstration {
   margin-bottom: 16px;
 }
+
+
+.data-title {
+    font-size: 1.2em;
+    color: #666;
+}
+#datainfo h3:first-child{
+    margin-bottom: 1.5em;
+}
+
 </style>

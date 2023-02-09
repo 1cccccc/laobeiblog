@@ -76,10 +76,10 @@
                   <router-link to="/archivemanage">
                     <el-dropdown-item>文章管理</el-dropdown-item>
                   </router-link>
-                  <router-link to="/archivemanage">
+                  <router-link to="/releasearchive">
                     <el-dropdown-item>发布文章</el-dropdown-item>
                   </router-link>
-                  <router-link to="/archivemanage">
+                  <router-link to="/usermanage">
                     <el-dropdown-item>用户管理</el-dropdown-item>
                   </router-link>
                   <router-link to="/personnalcloud">

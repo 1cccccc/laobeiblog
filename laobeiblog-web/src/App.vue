@@ -1,9 +1,8 @@
 <template>
   <el-scrollbar style="height: 100vh">
     <TopNavBar /><!-- 头部导航栏 -->
-    <transition name="fade" duration="1000">
-    <router-view></router-view
-    ><!-- 内容 -->
+    <transition name="fade">
+      <router-view> </router-view>
     </transition>
 
     <Search /><!-- 搜索框 -->
@@ -80,6 +79,5 @@ a:visited {
 .fade-leave-to {
   opacity: 0;
   transform: translateY(-2em);
-
 }
 </style>

@@ -5,7 +5,7 @@ import Archives from "../views/Archives.vue";
 import PersonnalCloud from "../views/PersonnalCloud.vue";
 import Tags from "../views/Tags.vue";
 import ArchiveManage from "../views/ArchiveManage.vue";
-import ReleaseManage from "../views/ReleaseManage.vue";
+import ReleaseArchive from "../views/ReleaseArchive.vue";
 import UserManage from "../views/UserManage.vue";
 import TagsInfo from "../views/TagsInfo.vue";
 import Writing from "../views/Writing.vue";
@@ -24,7 +24,7 @@ const routes = [
   { path: "/personnalcloud", component: PersonnalCloud, meta: { title: "个人云" } },
   { path: "/tags", component: Tags, meta: { title: "标签" } },
   { path: "/archivemanage", component: ArchiveManage, meta: { title: "文章管理" } },
-  { path: "/releasemanage", component: ReleaseManage, meta: { title: "发布文章" } },
+  { path: "/releasearchive", component: ReleaseArchive, meta: { title: "发布文章" } },
   { path: "/usermanage", component: UserManage, meta: { title: "用户管理" } },
   { path: "/tags/:id", component: TagsInfo, meta: { title: "标签详情" } },
   { path: "/writing", component: Writing, meta: { title: "创作" } },

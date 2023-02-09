@@ -1,5 +1,5 @@
 <template>
-    <div id="UserManage">
+    <div id="ReleaseArchive">
       <el-row>
       <el-col>
         <el-row>
@@ -9,7 +9,7 @@
               alt="58549087b0d8455eb399ff0dba34f6c0.jpg"
               class="head-bg"
             />
-            <h1 class="title">用户管理</h1>
+            <h1 class="title">发布文章</h1>
           </div>
         </el-row>
         <el-row :gutter="20" id="content" justify="center">
@@ -25,7 +25,7 @@
   <script setup></script>
   
   <style scoped>
-  #UserManage {
+  #ReleaseArchive {
     overflow: hidden;
     width: 100vw;
     --label-border-radius: 0.5em;

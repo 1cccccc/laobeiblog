@@ -1,5 +1,5 @@
 <template>
-    <div id="Links">
+    <div id="Writing">
       <el-row>
       <el-col>
         <el-row>
@@ -9,7 +9,7 @@
               alt="58549087b0d8455eb399ff0dba34f6c0.jpg"
               class="head-bg"
             />
-            <h1 class="title">友链</h1>
+            <h1 class="title">个人</h1>
           </div>
         </el-row>
         <el-row :gutter="20" id="content" justify="center">
@@ -23,7 +23,7 @@
   <script setup></script>
   
   <style scoped>
-  #Links {
+  #Writing {
     overflow: hidden;
     width: 100vw;
     --label-border-radius: 0.5em;
@@ -60,6 +60,7 @@
   }
   
   #data {
+    min-height: 40vh;
     width: 50%;
     margin-top: 1em;
     border-radius: var(--label-border-radius);

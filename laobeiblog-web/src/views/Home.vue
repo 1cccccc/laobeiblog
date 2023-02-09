@@ -135,18 +135,11 @@
                     <p>{{ aboutus.email }}</p>
                   </div>
 
-                  <div @click="opengithub">
+                  <div>
                     <svg class="icon icon-github" aria-hidden="true">
                       <use xlink:href="#icon-github"></use>
                     </svg>
-                    <p>{{ aboutus.github }}</p>
-                  </div>
-
-                  <div @click="opengitee">
-                    <svg class="icon icon-gitee" aria-hidden="true">
-                      <use xlink:href="#icon-gitee"></use>
-                    </svg>
-                    <p>{{ aboutus.gitee }}</p>
+                    <p><a href="https://github.com/1cccccc/-">{{ aboutus.github }}</a></p>
                   </div>
 
                   <div>
@@ -451,7 +444,7 @@ const opengithub = () => {};
 }
 .followUs-content svg {
   font-size: 2em;
-  margin-right: 0.3em;
+  margin-right: 0.1em;
 }
 .followUs-content p {
   font-size: 1em;

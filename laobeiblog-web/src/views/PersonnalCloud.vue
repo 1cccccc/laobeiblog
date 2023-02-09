@@ -1,5 +1,5 @@
 <template>
-  <div id="Tags">
+  <div id="Albums">
     <el-row>
       <el-col>
         <el-row>
@@ -9,17 +9,29 @@
               alt="58549087b0d8455eb399ff0dba34f6c0.jpg"
               class="head-bg"
             />
-            <h1 class="title">标签</h1>
+            <h1 class="title">个人云</h1>
           </div>
         </el-row>
         <el-row :gutter="20" id="content" justify="center">
           <div id="data">
-            <h2 id="totalinfo">{{ '共有'+dataObj.length+'个标签' }}</h2>
-            <div id="tags">
-              <router-link v-for="item in dataObj" :to="'/tags/' + item.id">
-                <p>{{ item.tagname }}</p>
-              </router-link>
+            <div id="photos">
+              <div class="photo" v-for="item in photos">
+                <el-image
+                  style="width: 100%"
+                  :src="
+                    store.getImageUrl('f7b45c9a0b794c789877e1d687d4ef76.jpg')
+                  "
+                  :zoom-rate="1.2"
+                  :preview-src-list="srcList"
+                  :initial-index="4"
+                  fit="cover"
+                  error="加载失败"
+                />
+                <p class="photo-name">{{ item.photoname }}</p>
+              </div>
             </div>
+
+            <el-button type="primary" id="upload-img">上传</el-button>
           </div>
         </el-row>
       </el-col>
@@ -29,41 +41,21 @@
 
 <script setup>
 import { ref, reactive } from "vue";
-let dataObj = reactive([
+import { useMainStore } from "@/store/index.js";
+
+const store = useMainStore();
+let photos = reactive([
   {
     id: 0,
-    tagname: "springboot",
-  },
-  {
-    id: 1,
-    tagname: "linux",
+    url: "",
+    photoname: "1111.jpg",
   },
 ]);
+let srcList = reactive([]);
 </script>
 
 <style scoped>
-#totalinfo {
-  font-size: 2em;
-  font-weight: 900;
-  margin-bottom: .5em;
-}
-#tags {
-  display: flex;
-  justify-content: start;
-}
-#tags p {
-  margin: 0 .3em;
-  font-size: 1.5em;
-  transition: all .5s ease;
-  transform-origin: 50% 50%;
-}
-#tags p:hover {
-  color: #9896dc;
-  transform: scale(1.1);
-}
-
-
-#Tags {
+#Albums {
   overflow: hidden;
   width: 100vw;
   --label-border-radius: 0.5em;
@@ -100,8 +92,8 @@ let dataObj = reactive([
 }
 
 #data {
-  width: 50%;
   min-height: 40vh;
+  width: 60%;
   margin-top: 1em;
   border-radius: var(--label-border-radius);
   box-shadow: var(--label-box-shadow);
@@ -109,18 +101,30 @@ let dataObj = reactive([
   background-color: var(--label-backgroud-color);
   overflow: hidden;
   margin-bottom: 3em;
-  padding: 4em;
+  padding: 3em;
   padding-bottom: 7em;
   position: relative;
-  text-align: center;
 }
 
 #data:hover {
   box-shadow: var(--label-box-shadow-moveover);
 }
-
-a {
-  text-decoration: none;
-  color: #000;
+.photo {
+  position: relative;
+  width: 20%;
+  padding-bottom: 2em;
+}
+.photo-name {
+  position: absolute;
+  left: 50%;
+  bottom: 5%;
+  transform: translateX(-50%);
+  font-size: .8em;
+  color: #666;
+}
+#upload-img {
+  position: absolute;
+  right: 5%;
+  bottom: 5%;
 }
 </style>

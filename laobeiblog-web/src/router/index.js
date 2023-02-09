@@ -2,14 +2,15 @@ import { createRouter, createWebHashHistory } from "vue-router";
 import Home from "../views/Home.vue";
 import Articles from "../views/Articles.vue";
 import Archives from "../views/Archives.vue";
-import Albums from "../views/Albums.vue";
+import PersonnalCloud from "../views/PersonnalCloud.vue";
 import Tags from "../views/Tags.vue";
+import ArchiveManage from "../views/ArchiveManage.vue";
+import ReleaseManage from "../views/ReleaseManage.vue";
+import UserManage from "../views/UserManage.vue";
 import TagsInfo from "../views/TagsInfo.vue";
-import Links from "../views/Links.vue";
-import Message from "../views/Message.vue";
+import Writing from "../views/Writing.vue";
 import User from "../views/User.vue";
 import Category from "../views/Category.vue";
-import CategoryInfo from "../views/CategoryInfo.vue";
 import Explain from "../views/Explain.vue";
 
 const routes = [
@@ -20,19 +21,16 @@ const routes = [
     meta: { title: "文章详情" },
   },
   { path: "/archives", component: Archives, meta: { title: "归档" } },
-  { path: "/albums", component: Albums, meta: { title: "相册" } },
+  { path: "/personnalcloud", component: PersonnalCloud, meta: { title: "个人云" } },
   { path: "/tags", component: Tags, meta: { title: "标签" } },
+  { path: "/archivemanage", component: ArchiveManage, meta: { title: "文章管理" } },
+  { path: "/releasemanage", component: ReleaseManage, meta: { title: "发布文章" } },
+  { path: "/usermanage", component: UserManage, meta: { title: "用户管理" } },
   { path: "/tags/:id", component: TagsInfo, meta: { title: "标签详情" } },
-  { path: "/links", component: Links, meta: { title: "友链" } },
-  { path: "/message", component: Message, meta: { title: "留言" } },
+  { path: "/writing", component: Writing, meta: { title: "创作" } },
   { path: "/user", component: User, meta: { title: "个人中心" } },
   { path: "/category", component: Category, meta: { title: "分类" } },
   { path: "/explain", component: Explain, meta: { title: "使用说明" } },
-  {
-    path: "/category/:categoryId",
-    component: CategoryInfo,
-    meta: { title: "分类详情" },
-  },
 ];
 
 // 3. 创建路由实例并传递 `routes` 配置

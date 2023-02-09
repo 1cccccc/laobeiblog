@@ -125,6 +125,7 @@ const deletecategory = (scope) => {
 }
 
 #data {
+  min-height: 40vh;
   width: 50%;
   margin-top: 1em;
   border-radius: var(--label-border-radius);

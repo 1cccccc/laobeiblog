@@ -8,7 +8,7 @@
     <el-col :span="12">
       <ul id="Navigation">
         <el-row justify="space-between">
-          <el-col :span="3">
+          <el-col :span="2">
             <li @click="Search()">
               <svg class="icon icon-Magnifier" aria-hidden="true">
                 <use xlink:href="#icon-Magnifier"></use>
@@ -17,7 +17,7 @@
             </li>
           </el-col>
 
-          <el-col :span="3">
+          <el-col :span="2">
             <router-link to="/">
               <li>
                 <svg class="icon icon-shouye" aria-hidden="true">
@@ -28,7 +28,7 @@
             </router-link>
           </el-col>
 
-          <el-col :span="3">
+          <el-col :span="2">
             <el-dropdown size="large" :hide-on-click="false">
               <li>
                 <svg class="icon icon-gongneng" aria-hidden="true">
@@ -52,26 +52,45 @@
                   <router-link to="/tags">
                     <el-dropdown-item>标签</el-dropdown-item>
                   </router-link>
-                  <router-link to="/albums">
-                    <el-dropdown-item>相册</el-dropdown-item>
-                  </router-link>
                 </el-dropdown-menu>
               </template>
             </el-dropdown>
           </el-col>
 
-          <el-col :span="3">
-            <router-link to="/links">
+          <el-col :span="2">
+            <el-dropdown size="large" :hide-on-click="false">
+            <router-link to="/writing">
               <li>
                 <svg class="icon icon-lianjie" aria-hidden="true">
                   <use xlink:href="#icon-lianjie"></use>
                 </svg>
-                <p class="content">友链</p>
+                <p class="content">个人
+                  <el-icon :size="18">
+                    <CaretBottom />
+                  </el-icon>
+                </p>
               </li>
             </router-link>
+            <template #dropdown>
+                <el-dropdown-menu>
+                  <router-link to="/archivemanage">
+                    <el-dropdown-item>文章管理</el-dropdown-item>
+                  </router-link>
+                  <router-link to="/archivemanage">
+                    <el-dropdown-item>发布文章</el-dropdown-item>
+                  </router-link>
+                  <router-link to="/archivemanage">
+                    <el-dropdown-item>用户管理</el-dropdown-item>
+                  </router-link>
+                  <router-link to="/personnalcloud">
+                    <el-dropdown-item>个人云</el-dropdown-item>
+                  </router-link>
+                </el-dropdown-menu>
+              </template>
+          </el-dropdown>
           </el-col>
 
-          <el-col :span="3">
+          <el-col :span="2">
             <el-dropdown size="large" :hide-on-click="false">
               <li>
                 <svg class="icon icon-zhifeiji" aria-hidden="true">
@@ -98,18 +117,7 @@
             </el-dropdown>
           </el-col>
 
-          <el-col :span="3">
-            <router-link to="/message">
-              <li>
-                <svg class="icon icon-xinxi" aria-hidden="true">
-                  <use xlink:href="#icon-xinxi"></use>
-                </svg>
-                <p class="content">留言</p>
-              </li>
-            </router-link>
-          </el-col>
-
-          <el-col :span="3">
+          <el-col :span="2">
             <li @click="Login()">
               <svg class="icon icon-yonghu" aria-hidden="true">
                 <use xlink:href="#icon-yonghu"></use>

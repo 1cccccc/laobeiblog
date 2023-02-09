@@ -1,10 +1,10 @@
 <template>
   <el-scrollbar style="height: 100vh">
     <TopNavBar /><!-- 头部导航栏 -->
-    <!-- <transition name="fade"> -->
+    <transition name="fade" duration="1000">
     <router-view></router-view
     ><!-- 内容 -->
-    <!-- </transition> -->
+    </transition>
 
     <Search /><!-- 搜索框 -->
     <Login /><!--登录框 -->
@@ -73,14 +73,13 @@ a:visited {
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: all 1.5s ease;
+  transition: all 1s ease;
 }
-.fade-enter-form,
+
+.fade-enter-from,
 .fade-leave-to {
-  transform: translateY(-100px);
-}
-.fade-enter-to,
-.fade-leave-form {
-  transform: translateY(0px);
+  opacity: 0;
+  transform: translateY(-2em);
+
 }
 </style>

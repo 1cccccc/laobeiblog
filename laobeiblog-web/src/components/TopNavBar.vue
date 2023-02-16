@@ -76,7 +76,7 @@
                   <router-link to="/archivemanage">
                     <el-dropdown-item>文章管理</el-dropdown-item>
                   </router-link>
-                  <router-link to="/releasearchive">
+                  <router-link  to="/releasearchive">
                     <el-dropdown-item>发布文章</el-dropdown-item>
                   </router-link>
                   <router-link to="/usermanage">
@@ -132,12 +132,12 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref,watch } from "vue";
 import {useMainStore} from "@/store/index"
 
 let store=useMainStore();
 let TopNavBar = ref(null);
-let scrollTopLS = 0;
+let scrollTopLS = 0;//原来的位置
 
 const Search=()=>{
   store.SearchVariable=!store.SearchVariable;
@@ -146,15 +146,15 @@ const Login=()=>{
   store.LoginVariable=!store.LoginVariable;
 }
 
-window.onscroll = () => {
-  let Y = document.documentElement.scrollTop - scrollTopLS;
+watch(()=>store.scrolltop,(newV,oldV)=>{
+  let Y = newV - oldV;
   //屏幕向下滚动
   if (Y > 0) {
     TopNavBar.value.$el.classList.add("active");
   } else {
     //向上滚动
     TopNavBar.value.$el.classList.remove("active");
-    if (document.documentElement.scrollTop > 100) {
+    if (newV > 100) {
       TopNavBar.value.$el.style.backgroundColor = "rgba(255,255,255,.7)";
       TopNavBar.value.$el.style.setProperty("--text-color", "#5E5B5A");
     } else {
@@ -162,9 +162,7 @@ window.onscroll = () => {
       TopNavBar.value.$el.style.setProperty("--text-color", "#eee");
     }
   }
-
-  scrollTopLS = document.documentElement.scrollTop;
-};
+})
 </script>
 
 <style scoped>

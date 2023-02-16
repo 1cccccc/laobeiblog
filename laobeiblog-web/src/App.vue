@@ -1,5 +1,5 @@
 <template>
-  <el-scrollbar style="height: 100vh">
+  <el-scrollbar style="height: 100vh" ref="scrollbar" @scroll="scroll">
     <TopNavBar /><!-- 头部导航栏 -->
     <transition name="fade">
       <router-view> </router-view>
@@ -17,6 +17,9 @@
 </template>
 
 <script setup>
+import { ref, watch } from "vue";
+import { useMainStore } from "@/store/index";
+
 import TopNavBar from "./components/TopNavBar.vue";
 import Search from "./components/Search.vue";
 import Login from "./components/Login.vue";
@@ -25,6 +28,34 @@ import ForgetPassword from "./components/ForgetPassword.vue";
 import ForgetPasswordSteptwo from "./components/ForgetPasswordSteptwo.vue";
 import CategoryRelation from "./components/CategoryRelation.vue";
 import Footer from "./components/Footer.vue";
+
+const store = useMainStore();
+
+let scrollbar = ref(null);
+let top = 0;
+watch(
+  () => store.scrollDown,
+  (newV, oldV) => {
+    if (newV) {
+      let speed;
+      let h = document.documentElement.offsetHeight;
+      let time = setInterval(() => {
+        speed = Math.ceil((h - top) / 10);
+        scrollbar.value.setScrollTop(top + speed);
+
+        if(h-top<10){
+          clearInterval(time)
+          store.scrollDown = false;
+          scrollbar.value.setScrollTop(h);
+        }
+      }, 20);
+    }
+  }
+  );
+  const scroll = (scrollTop) => {
+    top = scrollTop.scrollTop;
+    store.scrolltop=scrollTop.scrollTop;
+};
 </script>
 
 <style>

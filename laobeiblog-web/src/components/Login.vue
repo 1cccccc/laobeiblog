@@ -90,9 +90,9 @@
 
 <script setup>
 import { reactive, ref, watch } from "vue";
-import { useMainStore } from "@/store/index";
 import { Close } from "@element-plus/icons-vue";
 import { ElMessage } from "element-plus";
+import { useMainStore } from "@/store/index";
 
 const store = useMainStore();
 

@@ -52,7 +52,9 @@
                   />
                 </el-col>
                 <el-col :span="12" class="label-right">
-                  <h2 @click="articledetails(article.articleid)">{{ article.title }}</h2>
+                  <router-link :to="'/articles/'+article.articleid">
+                    <h2>{{ article.title }}</h2>
+                  </router-link>
                   <div>
                     <svg
                       class="icon icon-tuding"
@@ -161,7 +163,11 @@
 import { Discount } from "@element-plus/icons-vue";
 import { ElMessage } from "element-plus";
 import { reactive, ref } from "vue";
+import {useRouter} from "vue-router"
+import { useMainStore } from "@/store/index";
 
+const store = useMainStore();
+const router=useRouter();
 let articles = reactive([
   {
     articleid:0,
@@ -200,12 +206,6 @@ let aboutus = reactive({
   wechat: "lb16673514910",
 });
 
-const articledetails=(articleid)=>{
-  //跳转到文章详情页
-
-  //请求后端文章详情数据
-}
-
 //添加书签按钮
 const joinbookmark = () => {
   ElMessage({
@@ -220,15 +220,8 @@ const joinbookmark = () => {
 let bg = ref(null);
 const scrollDown = () => {
   let bgParentHeight = bg.value.parentNode.clientHeight; //上面背景页面的高度
-
-  let time = setInterval(() => {
-    if (document.documentElement.scrollTop == bgParentHeight) {
-      clearInterval(time);
-    }
-    let osTop = document.documentElement.scrollTop;
-    let ispeed = Math.ceil((bgParentHeight - osTop) / 15);
-    document.documentElement.scrollTop = osTop + ispeed;
-  }, 10);
+  
+  store.scrollDown=true;
 };
 
 const opengithub = () => {};
@@ -347,6 +340,7 @@ const opengithub = () => {};
 .label-right h2:hover {
   color: #9896dc;
   transition: all 0.2s linear;
+  cursor: pointer;
 }
 .label-right div svg {
   margin-right: 0.5em;

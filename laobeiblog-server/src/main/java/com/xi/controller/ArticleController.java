@@ -1,10 +1,12 @@
 package com.xi.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.xi.common.PageReq;
 import com.xi.common.PageUtil;
 import com.xi.common.Result;
 import com.xi.entity.ArticleEntity;
+import com.xi.mapper.ArticleMapper;
 import com.xi.service.ArticleService;
 import com.xi.swagger.api.ArticleApi;
 import com.xi.vo.ArticleVo;
@@ -12,8 +14,8 @@ import jakarta.annotation.Resource;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/article")
 @RestController
+@RequestMapping("/article")
 public class ArticleController implements ArticleApi {
     @Resource
     private ArticleService articleService;
@@ -27,15 +29,15 @@ public class ArticleController implements ArticleApi {
 
     @Override
     @GetMapping("/get/{id}")
-    public Result get(@PathVariable("id") long id){
+    public Result get(@PathVariable("id") int id){
         ArticleEntity article = articleService.getById(id);
         return Result.success().setData(article);
     }
 
     @Override
     @DeleteMapping("/remove/{id}")
-    public Result remove(@PathVariable("id") long id) {
-        articleService.removeById(id);
+    public Result remove(@PathVariable("id") int id) {
+        articleService.update(new ArticleEntity(),new UpdateWrapper<ArticleEntity>().eq("article_id",id).set("deleted",1));
         return Result.success();
     }
 

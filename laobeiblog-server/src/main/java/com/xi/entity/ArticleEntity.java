@@ -17,7 +17,7 @@ import java.util.Date;
 public class ArticleEntity implements Serializable {
     private static final long  serialVersionUID=1L;
 
-    @TableId
+    @TableId(value = "article_id")
     private Integer articleId;
     private String articleTitle;
     private String articleContent;
@@ -36,10 +36,9 @@ public class ArticleEntity implements Serializable {
     private Integer tagId;
     private Integer categoryId;
     @TableField(value = "create_time",fill = FieldFill.INSERT)
-    private Date updateTime;
-    @TableField(value = "update_time",fill = FieldFill.INSERT_UPDATE)
     private Date createTime;
+    @TableField(value = "update_time",fill = FieldFill.INSERT_UPDATE)
+    private Date updateTime;
 
-    @TableLogic(value = "0",delval = "1")
     private Integer deleted;
 }

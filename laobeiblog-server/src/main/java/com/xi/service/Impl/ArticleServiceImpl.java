@@ -16,8 +16,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper,ArticleEntity> implements ArticleService {
     @Override
-    public PageUtil queryList() {
-        Page<ArticleEntity> page = this.page(new Page<>(1,10));
+    public PageUtil queryList(long pagenum,long size) {
+        Page<ArticleEntity> page = this.page(new Page<>(pagenum,size));
         log.info(String.valueOf(page.getRecords()));
 
         return new PageUtil(page);

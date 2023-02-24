@@ -1,5 +1,6 @@
 package com.xi.common;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,9 +13,12 @@ import java.util.HashMap;
 @NoArgsConstructor
 public class Result implements Serializable {
     private static final long SerialVersionUID=1L;
-    private Integer code;//状态码
-    private String message;//状态消息
-    private Object data;//返回对象
+    @Schema(description = "状态码")
+    private Integer code;
+    @Schema(description = "状态消息")
+    private String message;
+    @Schema(description = "返回对象")
+    private Object data;
 
     public static Result success(){
         Result result = new Result();

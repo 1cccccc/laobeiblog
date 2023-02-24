@@ -5,5 +5,5 @@ import com.xi.common.PageUtil;
 import com.xi.entity.ArticleEntity;
 
 public interface ArticleService extends IService<ArticleEntity> {
-    public PageUtil queryList();
+    public PageUtil queryList(long pagenum,long size);
 }

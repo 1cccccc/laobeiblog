@@ -1,18 +1,19 @@
 package com.xi.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.Date;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @TableName("article")
-//@Accessors(chain = true)
+@Accessors(chain = true)
 public class ArticleEntity implements Serializable {
     private static final long  serialVersionUID=1L;
 
@@ -38,4 +39,7 @@ public class ArticleEntity implements Serializable {
     private Date updateTime;
     @TableField(value = "update_time",fill = FieldFill.INSERT_UPDATE)
     private Date createTime;
+
+    @TableLogic(value = "0",delval = "1")
+    private Integer deleted;
 }

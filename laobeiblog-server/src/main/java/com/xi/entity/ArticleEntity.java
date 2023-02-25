@@ -15,6 +15,7 @@ import java.util.Date;
 @TableName("article")
 @Accessors(chain = true)
 public class ArticleEntity implements Serializable {
+    @TableField(exist = false)
     private static final long  serialVersionUID=1L;
 
     @TableId(value = "article_id")

@@ -12,14 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 
-@Slf4j
 @Service
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper,ArticleEntity> implements ArticleService {
-    @Override
-    public PageUtil queryList(long pagenum,long size) {
-        Page<ArticleEntity> page = this.page(new Page<>(pagenum,size));
-        log.info(String.valueOf(page.getRecords()));
-
-        return new PageUtil(page);
-    }
 }

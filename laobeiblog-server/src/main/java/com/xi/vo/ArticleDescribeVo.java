@@ -13,7 +13,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
-public class ArticleDescribeVo implements Serializable {
+public class ArticleDescribeVo implements Serializable,Vo {
     private final static long serialVersionUID=1L;
 
     @Schema(description = "文章id")

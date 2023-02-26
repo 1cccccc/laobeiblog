@@ -1,5 +1,6 @@
 package com.xi.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xi.common.PageReq;
@@ -24,6 +25,14 @@ public class ArticleController implements ArticleApi {
     public Result list(PageReq pageReq){
         Page<ArticleEntity> page = articleService.page(new Page<ArticleEntity>(pageReq.getPage(), pageReq.getSize()));
         return Result.success().setData(new PageUtil(page));
+    }
+
+    @Override
+    @GetMapping("/get/{id}")
+    public Result search(@PathVariable("id") String searchCriteria){
+//        new QueryWrapper<ArticleEntity>().like("")
+//        articleService.list()
+        return Result.success();
     }
 
     @Override

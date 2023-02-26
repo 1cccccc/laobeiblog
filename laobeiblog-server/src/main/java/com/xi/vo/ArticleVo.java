@@ -33,6 +33,9 @@ public class ArticleVo implements Serializable,Vo {
     @Schema(description = "文章简介")
     private String articleSummary;
 
+    @Schema(description = "所属用户id")
+    private Integer userId;
+
     @Schema(description = "是否私有，1私有，2公有")
     private Integer isPrivate;
 

@@ -24,6 +24,7 @@ public class ArticleEntity implements Serializable {
     private String articleContent;
     private String coverUrl;
     private String articleSummary;
+    private Integer userId;
     private Integer isPrivate;
     private Integer isTop;
     private Integer isOriginal;

@@ -25,11 +25,11 @@ public interface TagApi {
     @ApiResponse(description = "返回数据",content = @Content(mediaType = "application/json",schema = @Schema(implementation = Result.class)))
     public Result add(@Parameter(description = "标签vo",schema = @Schema(implementation = TagVo.class)) TagVo vo);
 
-    @Operation(summary = "获取标签数",description = "获取标签数")
+    @Operation(summary = "删除标签",description = "删除标签")
     @ApiResponse(description = "返回数据",content = @Content(mediaType = "application/json",schema = @Schema(implementation = Result.class)))
     public Result remove(@Parameter(description = "标签id") int id);
 
-    @Operation(summary = "获取标签数",description = "获取标签数")
+    @Operation(summary = "更改标签",description = "更改标签")
     @ApiResponse(description = "返回数据",content = @Content(mediaType = "application/json",schema = @Schema(implementation = Result.class)))
     public Result update(@Parameter(description = "标签vo",schema = @Schema(implementation = TagVo.class)) TagVo vo);
 }

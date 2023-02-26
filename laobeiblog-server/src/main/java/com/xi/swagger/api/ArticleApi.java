@@ -18,6 +18,10 @@ public interface ArticleApi {
     @ApiResponse(description = "返回数据",content = @Content(mediaType = "application/json",schema = @Schema(implementation = Result.class)))
     public Result list(@Parameter(description = "分页对象",schema = @Schema(implementation = PageReq.class))PageReq pageReq);
 
+    @Operation(summary = "搜索文章",description = "搜索文章")
+    @ApiResponse(description = "返回数据",content = @Content(mediaType = "application/json",schema = @Schema(implementation = Result.class)))
+    public Result search(@Parameter(description = "搜索条件，可匹配文章标题和文章内容") String searchCriteria);
+
     @Operation(summary = "根据id获取文章",description = "根据id获取文章")
     @ApiResponse(description = "返回数据",content = @Content(mediaType = "application/json",schema = @Schema(implementation = Result.class)))
     public Result get(@Parameter(description = "文章id") int id);

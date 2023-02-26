@@ -4,8 +4,6 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,28 +16,18 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
-@TableName("article_describe")
-public class ArticleDescribeEntity implements Serializable {
+@TableName("comment")
+public class CommentEntity implements Serializable {
     @TableField(exist = false)
     private final static long serialVersionUID=1L;
-
-    @TableId(value = "article_id")
-    private Integer articleId;
-
-    private String articleTitle;
-
-    private Integer isTop;
-
-    private Integer tagId;
+    @TableId("comment_id")
+    private Integer commentId;
     private Integer userId;
-
-    private String articleDescribe;
-
-    private Integer categoryId;
-
+    private Integer articleId;
+    private String commentContent;
+    private Integer parentId;
+    private Integer deleted;
+    private Date removeTime;
     @TableField(value = "create_time",fill = FieldFill.INSERT)
     private Date createTime;
-
-    @TableField(value = "update_time",fill = FieldFill.INSERT_UPDATE)
-    private Date updateTime;
 }

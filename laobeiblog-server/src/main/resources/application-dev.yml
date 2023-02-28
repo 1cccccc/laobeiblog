@@ -1,0 +1,16 @@
+server:
+  port: 8001
+springdoc:
+  api-docs:
+    enabled: true #是否开启json api文档
+    path: /api-docs #后端请求路径
+  swagger-ui:
+    enabled: true
+    path: /swagger-api #可视化界面请求路径，访问这个路径会自动跳转到swagger的文档地址
+  packages-to-scan: com.xi.controller #包扫描,这里需要写你的真正接口的包也就是controller
+
+#mybatis-plus配置
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+

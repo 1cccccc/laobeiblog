@@ -1,4 +1,4 @@
-package com.xi.oss;
+package com.xi.config.oss;
 
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
@@ -20,7 +20,7 @@ public class AliyunOssConfig {
     private String bucketName;
     @Value("${aliyun.host}")
     private String host;
-    @Value("${aliyun.callbackUrl}")
+    @Value("${aliyun.callbackUrl:''}")
     private String callbackUrl;
     @Value("${aliyun.dir}")
     private String dir;

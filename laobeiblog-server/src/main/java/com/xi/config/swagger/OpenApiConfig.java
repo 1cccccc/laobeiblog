@@ -1,4 +1,4 @@
-package com.xi.swagger;
+package com.xi.config.swagger;
 
 import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.OpenAPI;

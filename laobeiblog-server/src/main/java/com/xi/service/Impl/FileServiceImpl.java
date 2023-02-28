@@ -3,14 +3,14 @@ package com.xi.service.Impl;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.common.utils.BinaryUtil;
 import com.aliyun.oss.model.*;
-import com.xi.oss.AliyunOssConfig;
+import com.xi.config.oss.AliyunOssConfig;
 import com.xi.service.FileService;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -78,19 +78,23 @@ public class FileServiceImpl implements FileService {
 
         try {
             for (MultipartFile file : files) {
+                System.out.println();
+                String filetype=file.getOriginalFilename().substring(file.getOriginalFilename().indexOf("."));
                 String filename = UUID.randomUUID().toString();
-                PutObjectRequest putObjectRequest = new PutObjectRequest(aliyunOssConfig.getBucketName(), aliyunOssConfig.getDir() + "/" + parentDir + "/" + filename, file.getInputStream();
 
-                Callback callback = new Callback();
-                callback.setCallbackUrl(aliyunOssConfig.getCallbackUrl());
-                //callback.setCallbackHost("192.168.1.4");
-                // 设置发起回调时请求body的值。
-                callback.setCallbackBody("{\\\"mimeType\\\":${mimeType},\\\"size\\\":${size}}");
-                // 设置发起回调请求的Content-Type。
-                callback.setCalbackBodyType(Callback.CalbackBodyType.JSON);
-                callback.addCallbackVar("x:var1", "value1");
-                callback.addCallbackVar("x:var2", "value2");
-                putObjectRequest.setCallback(callback);
+                PutObjectRequest putObjectRequest = new PutObjectRequest(aliyunOssConfig.getBucketName(), aliyunOssConfig.getDir() + "/" + parentDir + "/" + filename+filetype, file.getInputStream());
+
+                //设置回调，需要公网ip
+//                Callback callback = new Callback();
+//                callback.setCallbackUrl(aliyunOssConfig.getCallbackUrl());
+//                //callback.setCallbackHost("192.168.1.4");
+//                // 设置发起回调时请求body的值。
+//                callback.setCallbackBody("{\\\"mimeType\\\":${mimeType},\\\"size\\\":${size}}");
+//                // 设置发起回调请求的Content-Type。
+//                callback.setCalbackBodyType(Callback.CalbackBodyType.JSON);
+//                callback.addCallbackVar("x:var1", "value1");
+//                callback.addCallbackVar("x:var2", "value2");
+//                putObjectRequest.setCallback(callback);
 
                 PutObjectResult putObjectResult = ossClient.putObject(putObjectRequest);
                 System.out.println(putObjectResult.getResponse().getContent());

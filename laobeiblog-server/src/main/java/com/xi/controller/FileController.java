@@ -5,8 +5,10 @@ import com.xi.service.FileService;
 import com.xi.swagger.api.FileApi;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Map;
 
@@ -24,7 +26,9 @@ public class FileController implements FileApi {
     }
 
     @Override
-    public Result upload() {
-        return null;
+    @PostMapping("/simpleManyUpload")
+    public Result simpleManyUpload(MultipartFile[] files) {
+        fileService.simpleManyUpload(files);
+        return Result.success();
     }
 }

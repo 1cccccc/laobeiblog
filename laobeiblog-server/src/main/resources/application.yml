@@ -15,9 +15,9 @@ spring:
 
 
 aliyun:
-  endpoint: https://oss-cn-shenzhen.aliyuncs.com
-  accessKeyId: "xxxx"
-  accessKeySecret: "xxxx"
-  bucketName: orange-product-my
-  host: https://orange-product-my.oss-cn-shenzhen.aliyuncs.com
-  dir: /laobeiblog
+  endpoint: "https://oss-cn-shenzhen.aliyuncs.com"
+  accessKeyId: "LTAI5tLY81D64Gq1ZkMFUJ7x"
+  accessKeySecret: "xbO5zzGJbCiASXeJ2EFduiKjEP5h38"
+  bucketName: "orange-product-my"
+  host: "https://orange-product-my.oss-cn-shenzhen.aliyuncs.com"
+  dir: "/laobeiblog"

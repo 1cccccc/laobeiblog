@@ -14,24 +14,82 @@
         </el-row>
         <el-row :gutter="20" id="content" justify="center">
           <div id="data">
-            <div id="photos">
-              <div class="photo" v-for="item in photos">
-                <el-image
-                  style="width: 100%"
-                  :src="
-                    store.getImageUrl('f7b45c9a0b794c789877e1d687d4ef76.jpg')
-                  "
-                  :zoom-rate="1.2"
-                  :preview-src-list="srcList"
-                  :initial-index="4"
-                  fit="cover"
-                  error="加载失败"
-                />
-                <p class="photo-name">{{ item.photoname }}</p>
-              </div>
+            <div id="options">
+              <el-button round>全选</el-button>
+              <el-button type="primary" round>重命名</el-button>
+              <el-button type="danger" round>删除</el-button>
             </div>
 
-            <el-button type="primary" id="upload-img">上传</el-button>
+            <el-upload
+              action="http://localhost:8001/file/simpleManyUpload"
+              method="post"
+              :multiple="true"
+              list-type="picture-card"
+              :auto-upload="false"
+              id="upload"
+            >
+              <el-icon><Plus /></el-icon>
+
+              <template #file="{ file }">
+                <div>
+                  <img
+                    class="el-upload-list__item-thumbnail"
+                    :src="file.url"
+                    alt=""
+                  />
+                  <span class="el-upload-list__item-actions">
+                    <span
+                      class="el-upload-list__item-preview"
+                      @click="handlePictureCardPreview(file)"
+                    >
+                      <el-icon><zoom-in /></el-icon>
+                    </span>
+                    <span
+                      v-if="!disabled"
+                      class="el-upload-list__item-delete"
+                      @click="handleDownload(file)"
+                    >
+                      <el-icon><Download /></el-icon>
+                    </span>
+                    <span
+                      v-if="!disabled"
+                      class="el-upload-list__item-delete"
+                      @click="handleRemove(file)"
+                    >
+                      <el-icon><Delete /></el-icon>
+                    </span>
+                  </span>
+                </div>
+              </template>
+            </el-upload>
+
+            <el-upload
+              v-model:file-list="fileList"
+              class="upload-demo"
+              action="http://127.0.0.1:8001/api/file/simpleManyUpload"
+              multiple
+              :on-preview="handlePreview"
+              :on-remove="handleRemove"
+              :before-remove="beforeRemove"
+              :limit="3"
+              :on-exceed="handleExceed"
+            >
+              <el-button type="primary">Click to upload</el-button>
+              <template #tip>
+                <div class="el-upload__tip">
+                  jpg/png files with a size less than 500KB.
+                </div>
+              </template>
+            </el-upload>
+
+            <el-dialog v-model="dialogVisible">
+              <img
+                w-full
+                :src="dialogImageUrl"
+                alt="Preview Image"
+                style="width: 100%"
+              />
+            </el-dialog>
           </div>
         </el-row>
       </el-col>
@@ -42,6 +100,7 @@
 <script setup>
 import { ref, reactive } from "vue";
 import { useMainStore } from "@/store/index.js";
+import { Delete, Download, Plus, ZoomIn } from "@element-plus/icons-vue";
 
 const store = useMainStore();
 let photos = reactive([
@@ -52,9 +111,32 @@ let photos = reactive([
   },
 ]);
 let srcList = reactive([]);
+
+const dialogImageUrl = ref("");
+const dialogVisible = ref(false);
+const disabled = ref(false);
+
+//删除图片
+const handleRemove = (file) => {
+  console.log(file);
+};
+
+//图片预览
+const handlePictureCardPreview = (file) => {
+  dialogImageUrl.value = file.url;
+  dialogVisible.value = true;
+};
+
+//下载图片
+const handleDownload = (file) => {
+  console.log(file);
+};
 </script>
 
 <style scoped>
+#upload {
+  margin-top: 2em;
+}
 #Albums {
   overflow: hidden;
   width: 100vw;
@@ -64,6 +146,7 @@ let srcList = reactive([]);
   --label-backgroud-color: #fff;
   --laber-transition: all 200ms linear;
 }
+
 #head {
   color: #fff;
   font-size: 1.6em;
@@ -71,10 +154,12 @@ let srcList = reactive([]);
   width: 100vw;
   height: 40vh;
 }
+
 .head-bg {
   width: 100%;
   height: 100%;
 }
+
 .title {
   position: absolute;
   left: 50%;
@@ -102,26 +187,28 @@ let srcList = reactive([]);
   overflow: hidden;
   margin-bottom: 3em;
   padding: 3em;
-  padding-bottom: 7em;
   position: relative;
 }
 
 #data:hover {
   box-shadow: var(--label-box-shadow-moveover);
 }
+
 .photo {
   position: relative;
   width: 20%;
   padding-bottom: 2em;
 }
+
 .photo-name {
   position: absolute;
   left: 50%;
   bottom: 5%;
   transform: translateX(-50%);
-  font-size: .8em;
+  font-size: 0.8em;
   color: #666;
 }
+
 #upload-img {
   position: absolute;
   right: 5%;

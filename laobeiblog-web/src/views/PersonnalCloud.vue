@@ -20,9 +20,25 @@
               <el-button type="danger" round>删除</el-button>
             </div>
 
-            <el-upload
+            <div id="files">
+              <div class="file">
+                <el-image
+      style="width: 150px; height: 150px"
+      :src="url"
+      :zoom-rate="1.2"
+      :preview-src-list="srcList"
+      :initial-index="4"
+      fit="cover"
+      
+    />
+    <el-checkbox class="checkbox" size="large"/>
+              </div>
+    
+
+    <el-upload
               action="http://localhost:8001/file/simpleManyUpload"
               method="post"
+              name="files"
               :multiple="true"
               list-type="picture-card"
               :auto-upload="false"
@@ -62,34 +78,11 @@
                 </div>
               </template>
             </el-upload>
+            </div>
 
-            <el-upload
-              v-model:file-list="fileList"
-              class="upload-demo"
-              action="http://127.0.0.1:8001/api/file/simpleManyUpload"
-              multiple
-              :on-preview="handlePreview"
-              :on-remove="handleRemove"
-              :before-remove="beforeRemove"
-              :limit="3"
-              :on-exceed="handleExceed"
-            >
-              <el-button type="primary">Click to upload</el-button>
-              <template #tip>
-                <div class="el-upload__tip">
-                  jpg/png files with a size less than 500KB.
-                </div>
-              </template>
-            </el-upload>
+            
 
-            <el-dialog v-model="dialogVisible">
-              <img
-                w-full
-                :src="dialogImageUrl"
-                alt="Preview Image"
-                style="width: 100%"
-              />
-            </el-dialog>
+            
           </div>
         </el-row>
       </el-col>
@@ -103,40 +96,37 @@ import { useMainStore } from "@/store/index.js";
 import { Delete, Download, Plus, ZoomIn } from "@element-plus/icons-vue";
 
 const store = useMainStore();
-let photos = reactive([
-  {
-    id: 0,
-    url: "",
-    photoname: "1111.jpg",
-  },
+let url="https://orange-product-my.oss-cn-shenzhen.aliyuncs.com/laobeiblog/2023-03-02/1_0eafef40-b47c-4ca0-ad22-12280c056dbe.jpg";
+let srcList = reactive([
+  "https://orange-product-my.oss-cn-shenzhen.aliyuncs.com/laobeiblog/2023-03-02/1_0eafef40-b47c-4ca0-ad22-12280c056dbe.jpg"
 ]);
-let srcList = reactive([]);
-
-const dialogImageUrl = ref("");
-const dialogVisible = ref(false);
-const disabled = ref(false);
-
-//删除图片
-const handleRemove = (file) => {
-  console.log(file);
-};
-
-//图片预览
-const handlePictureCardPreview = (file) => {
-  dialogImageUrl.value = file.url;
-  dialogVisible.value = true;
-};
-
-//下载图片
-const handleDownload = (file) => {
-  console.log(file);
-};
 </script>
 
 <style scoped>
-#upload {
-  margin-top: 2em;
+.checkbox {
+  position: absolute;
+  left: 0.5em;
+  top: 0em;
 }
+
+#files{
+  width: 100%;
+  margin-top: 1em;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.file{
+  margin: 1em;
+  position: relative;
+}
+#upload{
+  width: 150px;
+  height: 150px;
+  margin: 1em;
+}
+
 #Albums {
   overflow: hidden;
   width: 100vw;
@@ -178,7 +168,7 @@ const handleDownload = (file) => {
 
 #data {
   min-height: 40vh;
-  width: 60%;
+  width: 62%;
   margin-top: 1em;
   border-radius: var(--label-border-radius);
   box-shadow: var(--label-box-shadow);

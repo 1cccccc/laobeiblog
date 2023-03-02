@@ -18,5 +18,13 @@ public interface FileApi {
 
     @Operation(summary = "文件上传",description = "文件上传")
     @ApiResponse(description = "返回数据",content = @Content(mediaType = "application/json",schema = @Schema(implementation = Result.class)))
-    public Result simpleManyUpload(@Parameter(description = "文件列表",array = @ArraySchema(schema = @Schema(implementation = MultipartFile.class))) MultipartFile[] files);
+    public Result simpleManyUpload(@Parameter(description = "所属用户id")int id,@Parameter(description = "文件列表",array = @ArraySchema(schema = @Schema(implementation = MultipartFile.class))) MultipartFile[] files);
+
+    @Operation(summary = "获取指定用户的文件列表",description = "获取指定用户的文件")
+    @ApiResponse(description = "返回数据",content = @Content(mediaType = "application/json",schema = @Schema(implementation = Result.class)))
+    public Result getFileList(@Parameter(description = "所属用户id")int userId);
+
+    @Operation(summary = "根据文件md5值删除文件",description = "根据文件md5值删除文件")
+    @ApiResponse(description = "返回数据",content = @Content(mediaType = "application/json",schema = @Schema(implementation = Result.class)))
+    public Result getFileList(@Parameter(description = "文件md5值")String md5);
 }

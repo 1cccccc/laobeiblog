@@ -1,11 +1,19 @@
 package com.xi.service;
 
+import com.aliyun.oss.model.OSSObjectSummary;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.xi.entity.FileEntity;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Map;
 
-public interface FileService {
+public interface FileService extends IService<FileEntity> {
     public Map<String,String> policy();
 
-    public void simpleManyUpload(MultipartFile[] files);
+    public List<Map<String, String>> simpleManyUpload(int userId, MultipartFile[] files);
+
+    public List<List<OSSObjectSummary>> getFileList(int userId);
+
+    public boolean removeFile(String md5);
 }

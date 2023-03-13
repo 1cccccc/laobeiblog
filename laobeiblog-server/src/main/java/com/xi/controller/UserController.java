@@ -1,15 +1,17 @@
 package com.xi.controller;
 
+import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.nimbusds.jose.JOSEException;
 import com.xi.common.Result;
 import com.xi.common.Utils;
 import com.xi.entity.UserEntity;
+import com.xi.security.JwtUtils;
 import com.xi.service.UserService;
 import com.xi.swagger.api.UserApi;
 import com.xi.vo.UserVo;
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
@@ -20,7 +22,8 @@ public class UserController implements UserApi {
     UserService userService;
 
     @Override
-    public Result add(UserVo vo) {
+    @PostMapping("/add")
+    public Result add(@RequestBody UserVo vo) {
         UserEntity userEntity = Utils.vochange(vo, new UserEntity());
         userEntity.setLastLoginTime(new Date());
 
@@ -30,17 +33,28 @@ public class UserController implements UserApi {
     }
 
     @Override
-    public Result remove(int id) {
+    @DeleteMapping("/remove")
+    public Result remove(@RequestBody int id) {
         boolean b = userService.update(new UserEntity(), new UpdateWrapper<UserEntity>().eq("user_id", id).set("deleted", 1));
         return Result.success().setData(b);
     }
 
     @Override
-    public Result update(UserVo vo) {
+    @PutMapping("/update")
+    public Result update(@RequestBody UserVo vo) {
         UserEntity userEntity = Utils.vochange(vo, new UserEntity());
 
         boolean b = userService.updateById(userEntity);
 
         return Result.success().setData(b);
+    }
+
+    @Override
+    @PostMapping("/login")
+    public Result login(@RequestBody UserVo vo) {
+        UserEntity userEntity = Utils.vochange(vo, new UserEntity());
+        String token = userService.login(userEntity);
+
+        return Result.success().setData(token);
     }
 }

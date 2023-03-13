@@ -20,6 +20,9 @@ public class UserVo implements Serializable,Vo {
     @Schema(description = "用户昵称")
     private String nickname;
 
+    @Schema(description = "用户账号")
+    private String username;
+
     @Schema(description = "用户密码")
     private String password;
 
@@ -29,7 +32,7 @@ public class UserVo implements Serializable,Vo {
     @Schema(description = "用户邮箱")
     private String email;
 
-    @Schema(description = "登录类型，1为phone，2为email，3为二维码")
+    @Schema(description = "登录方式，1为username，2为二维码")
     private Integer loginType;
 
     @Schema(description = "登录时ip")

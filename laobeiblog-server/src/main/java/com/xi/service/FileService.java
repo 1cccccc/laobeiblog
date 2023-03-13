@@ -13,7 +13,7 @@ public interface FileService extends IService<FileEntity> {
 
     public List<Map<String, String>> simpleManyUpload(int userId, MultipartFile[] files);
 
-    public List<List<OSSObjectSummary>> getFileList(int userId);
+    public List<FileEntity> getFileList(int userId);
 
-    public boolean removeFile(String md5);
+    public List<Boolean> removeFiles(String[] md5s);
 }

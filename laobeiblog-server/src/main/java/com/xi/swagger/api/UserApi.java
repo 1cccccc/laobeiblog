@@ -22,4 +22,8 @@ public interface UserApi {
     @Operation(summary = "更改用户信息",description = "更改用户信息")
     @ApiResponse(description = "返回数据",content = @Content(mediaType = "application/json",schema = @Schema(implementation = Result.class)))
     public Result update(@Parameter(description = "用户vo",schema = @Schema(implementation = UserVo.class)) UserVo vo);
+
+    @Operation(summary = "登录接口",description = "登录接口")
+    @ApiResponse(description = "返回数据",content = @Content(mediaType = "application/json",schema = @Schema(implementation = Result.class)))
+    public Result login(@Parameter(description = "用户vo",schema = @Schema(implementation = UserVo.class)) UserVo vo);
 }

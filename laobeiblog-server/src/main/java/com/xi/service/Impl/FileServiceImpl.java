@@ -89,8 +89,9 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, FileEntity> impleme
     }
 
     public List<Map<String, String>> simpleManyUpload(int userId, MultipartFile[] files) {
+        //首先以日期分类文件
         String parentDir = dateFormat.format(new Date());
-        List<Map<String, String>> list = new LinkedList<>();
+        List<Map<String, String>> list = new LinkedList<>();//存放返回结果
         ValueOperations<String, String> operations = stringRedisTemplate.opsForValue();
 
         try {
@@ -98,6 +99,7 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, FileEntity> impleme
                 //上传到oss的文件名
                 String filetype = file.getOriginalFilename().substring(file.getOriginalFilename().indexOf("."));
                 String filename = UUID.randomUUID().toString();
+                //上传到oss中的key
                 String path = aliyunOssConfig.getDir() + "/" + parentDir + "/" + userId + "_" + filename + filetype;
 
                 //计算文件内容md5值用于秒传
@@ -132,7 +134,7 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, FileEntity> impleme
                     map.put("filename", split[split.length-1]);
                     map.put("requestUrl", aliyunOssConfig.getHost()+"/"+path);
                     list.add(map);
-                }else{
+                }else{//已经有同样文件的直接使用redis中的记录返回结果，
                     String[] split = key.split("/");
 
                     Map<String, String> map = new HashMap<>();
@@ -165,35 +167,34 @@ public class FileServiceImpl extends ServiceImpl<FileMapper, FileEntity> impleme
     }
 
     @Override
-    public List<List<OSSObjectSummary>> getFileList(int userId) {
+    public List<FileEntity> getFileList(int userId) {
         List<FileEntity> list = this.list(new QueryWrapper<FileEntity>().eq("user_id", userId));
 
-        List<List<OSSObjectSummary>> collect = list.stream().distinct().map(entity -> {
-            String date = dateFormat.format(entity.getUploadTime());
-            String prefix=aliyunOssConfig.getDir() + "/" + date + "/" + userId + "_";
-
-            ObjectListing objects = ossClient.listObjects(aliyunOssConfig.getBucketName(), prefix);
-
-            return objects.getObjectSummaries();
-        }).collect(Collectors.toList());
-        return collect;
+        return list;
     }
 
     @Override
-    public boolean removeFile(String md5) {
+    public List<Boolean> removeFiles(String[] md5s) {
+        //首先先看redis中是否存在记录，如果没有说明没有进行上传过
         ValueOperations<String, String> operations = stringRedisTemplate.opsForValue();
-        String key = operations.get(md5);
-        if(key.isEmpty()){
-            return false;
-        }
+        List<Boolean> booleanList = Arrays.stream(md5s).map(md5 -> {
+            String key = operations.get(md5);
+            if (key.isEmpty()) {
+                return false;
+            }
 
-        ossClient.deleteObject(aliyunOssConfig.getBucketName(),aliyunOssConfig.getHost()+"/"+key);
-        CompletableFuture.runAsync(()->{
-            stringRedisTemplate.delete(md5);
+            //删除oss中的记录
+            ossClient.deleteObject(aliyunOssConfig.getBucketName(), aliyunOssConfig.getHost() + "/" + key);
+            CompletableFuture.runAsync(() -> {
+                //redis和mysql中的记录多开一个线程慢慢删
+                stringRedisTemplate.delete(md5);
 
-            this.remove(new QueryWrapper<FileEntity>().eq("file_md5",md5));
-        },threadPoolExecutor);
-        
-        return true;
+                this.remove(new QueryWrapper<FileEntity>().eq("file_md5", md5));
+            }, threadPoolExecutor);
+
+            return true;
+        }).collect(Collectors.toList());
+
+        return booleanList;
     }
 }

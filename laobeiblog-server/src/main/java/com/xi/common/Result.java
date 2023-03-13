@@ -27,6 +27,13 @@ public class Result implements Serializable {
 
         return result;
     }
+    public static Result success(Integer code,String message){
+        Result result = new Result();
+        result.code=code;
+        result.message=message;
+
+        return result;
+    }
 
     public static Result error(){
         Result result = new Result();

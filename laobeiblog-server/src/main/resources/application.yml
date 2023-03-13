@@ -19,6 +19,7 @@ spring:
       host: 1.1.1.3
       port: 6379
       database: 0
+      connect-timeout: 1s
 
 #自定义线程池
 thread:
@@ -29,8 +30,13 @@ thread:
 
 aliyun:
   endpoint: "https://oss-cn-shenzhen.aliyuncs.com"
-  accessKeyId: "xxx"
-  accessKeySecret: "xxx"
+  accessKeyId: "LTAI5tLY81D64Gq1ZkMFUJ7x"
+  accessKeySecret: "xbO5zzGJbCiASXeJ2EFduiKjEP5h38"
   bucketName: "orange-product-my"
   host: "https://orange-product-my.oss-cn-shenzhen.aliyuncs.com"
   dir: "laobeiblog"
+
+ignore:
+  requests:
+    - "/user/login"
+    - "/article/**"

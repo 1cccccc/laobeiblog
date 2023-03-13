@@ -1,12 +1,14 @@
 package com.xi.controller;
 
 import com.xi.common.Result;
+import com.xi.common.ReturnEnum;
 import com.xi.service.FileService;
 import com.xi.swagger.api.FileApi;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -37,12 +39,18 @@ public class FileController implements FileApi {
     }
 
     @Override
-    public Result getFileList(String md5) {
-        boolean b = fileService.removeFile(md5);
-        if(!b){
-            return Result.error();
+    @DeleteMapping("/removeFiles")
+    public Result removeFiles(@RequestBody String[] md5s) {
+        List<Boolean> bs = fileService.removeFiles(md5s);
+        List<String> ls=new ArrayList<>();
+        for (int i = 0; i < bs.size(); i++) {
+            if(!bs.get(i)){
+                ls.add(md5s[i]);
+            }
         }
-        return Result.success();
+        if(ls.size()<=0){
+            return Result.success();
+        }
+        return Result.success(ReturnEnum.NOTALLSUCCESSED.getCode(),ReturnEnum.NOTALLSUCCESSED.getMessage()).setData(ls);
     }
-
 }

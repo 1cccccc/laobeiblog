@@ -1,24 +1,27 @@
 package com.xi;
 
-import com.xi.entity.FileEntity;
+import com.nimbusds.jose.JOSEException;
+import com.nimbusds.jose.jwk.RSAKey;
+import com.xi.security.JwtUtils;
+import com.xi.entity.UserEntity;
+import com.xi.exception.JwtInvalidException;
+import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.io.FileNotFoundException;
-import java.util.Date;
+import java.text.ParseException;
 
 @SpringBootTest
 class LaobeiblogServerApplicationTests {
+    @Resource
+    PasswordEncoder passwordEncoder;
+
+    private final RSAKey rsaKey=JwtUtils.loadJKSByClassPath();
 
     @Test
-    void contextLoads() throws FileNotFoundException {
-        FileEntity fileEntity = new FileEntity();
-        FileEntity fileEntity2 = new FileEntity();
-        Date date = new Date();
-
-        fileEntity.setFileId(1).setFileMd5("aaa").setUploadTime(date);
-        fileEntity2.setFileId(1).setFileMd5("aaa").setUploadTime(date);
-        System.out.println(fileEntity==fileEntity2);
+    void contextLoads() throws JOSEException, JwtInvalidException, ParseException {
+        UserEntity userEntity = JwtUtils.verifyTokenByRSA("eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJjcmVhdGVUaW1lIjoiMjAyMy0wMi0yMSAyMToxMTo0OSIsImRlbGV0ZWQiOjAsImVtYWlsIjoibGIxNjY3MzUxNDkxMEAxNjMuY29tIiwibGFzdExvZ2luVGltZSI6IjIwMjMtMDItMjEgMjE6MTE6NDYiLCJsb2dpbklwIjoiMTkyLjE2OC4xLjEiLCJsb2dpbklwQWRkcmVzcyI6IuW5v-S4nCIsImxvZ2luT3MiOiJ3aW5kb3dzIiwibG9naW5UeXBlIjoxLCJuaWNrbmFtZSI6Ik9yYW5nZSIsInBhc3N3b3JkIjoiJDJhJDEwJEJtWTFpRVQ4Wk0xQzRoMVFuZk91ak95SWNZdjRZSkhvcFA4V0RydHBOc3ZEQnBnWnZCZWRtIiwicGhvbmUiOiIxNjY3MzUxNDkxMCIsInJlZ0lwQWRkcmVzcyI6IuW5v-S4nCIsInVwZGF0ZVRpbWUiOiIyMDIzLTAyLTI2IDEwOjQ2OjQ2IiwidXNlcklkIjoxLCJ1c2VybmFtZSI6InVzZXIifQ.NzYE54tiHMGEpkEbXtCdDUlIVjWszQ3LIO4qd7CNB_YoY59-ji5gD8_liumUxnNDm2Vv5U7PzLq52GsVL-OsuYxrMoRnZDQ5jT4lTOrasJh5p-FWdz5fZJr2-Z-v0nbQTZYB_vN5gwVJogUziZXo4aOMWidru_HIJpKP7qhAp129_dftHLwhLWfsyXaagBJZXC9QGyZQ2r6tYbzYod5FSlhVBLHggUKDxYiGpQJkDyAtUE_IxSMocT1-WXGW2_LH75fxmLWkL1pFNlQkTxgjz3xULGAEVF9Ct1apbhflEZtF_0eBC3cX6TMpQ96Dh931mNFfxKXla5t2O49cTkw49jz7XOGSsWdTap8fWjkWoTlDkzO8V6lApRFiK8ZVsEC5hdRtkwgYC6T3-aG1WBLEjQjPnj-37FUOyh-CC4Faf601hL9wmYQPH0d8OFYrLBha0nOvJxqbpc33SKppIyKk6konyG8E2M4-Q69me0lHK0EMWgRQbrLCWHL5_dZPtFBtRV284SX1-8whx2QWERwCZT1urif4X8vyDLwreI_quUhjkR6khRTw7_KYg0fQsEDjs-vM2_Iuj7ni3vvQTdGvowzSu_bsjexpldjgRt2kbdyCL1UZx-kiT4wtx6j5sVASNHfHuCWKrSYTAYe5pWF89Nsbl0pPQN4uYiso4XajAbk", rsaKey);
+        System.out.println(userEntity);
     }
-
 }

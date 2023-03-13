@@ -26,5 +26,5 @@ public interface FileApi {
 
     @Operation(summary = "根据文件md5值删除文件",description = "根据文件md5值删除文件")
     @ApiResponse(description = "返回数据",content = @Content(mediaType = "application/json",schema = @Schema(implementation = Result.class)))
-    public Result getFileList(@Parameter(description = "文件md5值")String md5);
+    public Result removeFiles(@Parameter(description = "文件md5值")String[] md5s);
 }

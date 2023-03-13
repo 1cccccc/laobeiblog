@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import { ref,reactive } from "vue";
 
 export const useMainStore = defineStore("counter", () => {
   const count = ref(0);
@@ -29,7 +29,11 @@ export const useMainStore = defineStore("counter", () => {
     return new URL(`../assets/img/${name}`, import.meta.url).href;
   };
 
+  //用户信息
+  let userinfo = reactive();
+
   const returnObject = {
+    userinfo,
     count,
     SearchVariable,
     LoginVariable,

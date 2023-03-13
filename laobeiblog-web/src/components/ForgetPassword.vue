@@ -14,7 +14,7 @@
           <div>
             <input
               type="text"
-              placeholder="请输入您的邮箱或电话号码"
+              placeholder="请输入您的账号"
               name="account"
               v-model="forgetpasswordinfo.account"
               @focus="inputfocus($event, 95)"
@@ -70,7 +70,7 @@
         <button id="nextstep" @click="next()">下一步</button>
         <div class="toLogin">
           <span>已有账号？</span>
-          <span @click="login()">登录</span>
+          <span @click="login()" style="color: #2e86de;">登录</span>
         </div>
       </div>
     </el-dialog>

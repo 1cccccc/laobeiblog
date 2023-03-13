@@ -15,74 +15,46 @@
         <el-row :gutter="20" id="content" justify="center">
           <div id="data">
             <div id="options">
-              <el-button round>全选</el-button>
-              <el-button type="primary" round>重命名</el-button>
-              <el-button type="danger" round>删除</el-button>
+              <el-button type="danger" round @click="removeHandler()">删除</el-button>
             </div>
 
             <div id="files">
-              <div class="file">
+              <div class="file" v-for="item,index in urls">
                 <el-image
-      style="width: 150px; height: 150px"
-      :src="url"
-      :zoom-rate="1.2"
-      :preview-src-list="srcList"
-      :initial-index="4"
-      fit="cover"
-      
-    />
-    <el-checkbox class="checkbox" size="large"/>
+                  style="width: 150px; height: 150px"
+                  :src="item.ossUrl"
+                  :zoom-rate="1.2"
+                  :preview-src-list="srcList"
+                  :initial-index="4"
+                  fit="cover"
+                />
+
+                <el-checkbox
+                  class="checkbox"
+                  size="large"
+                  :true-label="item.fileMd5"
+                  :false-label="index"
+                  @change="checkboxChange"
+                />
               </div>
-    
+            </div>
 
-    <el-upload
-              action="http://localhost:8001/file/simpleManyUpload"
-              method="post"
-              name="files"
-              :multiple="true"
-              list-type="picture-card"
-              :auto-upload="false"
-              id="upload"
+            <el-upload
+              class="upload-demo"
+              drag
+              action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
+              multiple
             >
-              <el-icon><Plus /></el-icon>
-
-              <template #file="{ file }">
-                <div>
-                  <img
-                    class="el-upload-list__item-thumbnail"
-                    :src="file.url"
-                    alt=""
-                  />
-                  <span class="el-upload-list__item-actions">
-                    <span
-                      class="el-upload-list__item-preview"
-                      @click="handlePictureCardPreview(file)"
-                    >
-                      <el-icon><zoom-in /></el-icon>
-                    </span>
-                    <span
-                      v-if="!disabled"
-                      class="el-upload-list__item-delete"
-                      @click="handleDownload(file)"
-                    >
-                      <el-icon><Download /></el-icon>
-                    </span>
-                    <span
-                      v-if="!disabled"
-                      class="el-upload-list__item-delete"
-                      @click="handleRemove(file)"
-                    >
-                      <el-icon><Delete /></el-icon>
-                    </span>
-                  </span>
+              <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+              <div class="el-upload__text"> 
+                Drop file here or <em>click to upload</em>
+              </div>
+              <template #tip>
+                <div class="el-upload__tip">
+                  jpg/png files with a size less than 500kb
                 </div>
               </template>
             </el-upload>
-            </div>
-
-            
-
-            
           </div>
         </el-row>
       </el-col>
@@ -93,13 +65,41 @@
 <script setup>
 import { ref, reactive } from "vue";
 import { useMainStore } from "@/store/index.js";
-import { Delete, Download, Plus, ZoomIn } from "@element-plus/icons-vue";
+import api from "../api/PersonalCloudApi"
+import { sortedUniq } from "lodash";
 
 const store = useMainStore();
-let url="https://orange-product-my.oss-cn-shenzhen.aliyuncs.com/laobeiblog/2023-03-02/1_0eafef40-b47c-4ca0-ad22-12280c056dbe.jpg";
-let srcList = reactive([
-  "https://orange-product-my.oss-cn-shenzhen.aliyuncs.com/laobeiblog/2023-03-02/1_0eafef40-b47c-4ca0-ad22-12280c056dbe.jpg"
-]);
+let urls = reactive([])
+let srcList = reactive([]);
+//${store.userinfo.userId}
+const requestUrl=`http://localhost:8001/file/simpleManyUpload/1`
+
+function getFiles(){
+  api.getFileList(1).then(data=>{
+  urls.push(...data.data.data)
+  urls.forEach(item=>{
+    srcList.push(item.ossUrl);
+  })
+})
+}
+getFiles()
+
+let arr = reactive([true, false, true]);
+
+let files=[];
+const checkboxChange = (value) => {
+  if(value.length==32){
+    files.push(value)
+  }else{
+    files=files.splice(value,1);
+  }
+};
+
+const removeHandler=()=>{
+  api.removeFiles(files).then(d=>{
+    getFiles();
+  })
+}
 </script>
 
 <style scoped>
@@ -109,7 +109,7 @@ let srcList = reactive([
   top: 0em;
 }
 
-#files{
+#files {
   width: 100%;
   margin-top: 1em;
   display: flex;
@@ -117,11 +117,11 @@ let srcList = reactive([
   align-items: center;
   flex-wrap: wrap;
 }
-.file{
+.file {
   margin: 1em;
   position: relative;
 }
-#upload{
+#upload {
   width: 150px;
   height: 150px;
   margin: 1em;

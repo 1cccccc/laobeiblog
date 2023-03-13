@@ -123,6 +123,25 @@
           <p v-if="!registerinforeg.codeflag">验证码应为6位的英文和数字组成</p>
         </div>
 
+        <!-- 账号 -->
+        <div class="inputframe">
+          <p>账号</p>
+          <div>
+            <input
+              type="text"
+              placeholder="请输入您的账号"
+              name="username"
+              v-model="registerinfo.username"
+              @focus="inputfocus($event, 95)"
+              @blur="blurfocus($event)"
+              autocomplete="off"
+              maxlength="20"
+            />
+            <div class="underline"></div>
+          </div>
+          <div id="colorblock"></div>
+        </div>
+
         <!-- 密码 -->
         <div class="inputframe">
           <p>密码</p>
@@ -187,7 +206,7 @@
 
       <div class="toLogin">
         <span>已有账号？</span>
-        <span @click="login()">登录</span>
+        <span @click="login()" style="color: #2e86de;">登录</span>
       </div>
     </el-dialog>
   </div>
@@ -210,6 +229,7 @@ let registerinfo = reactive({
   nickname: "",
   phone: "",
   code: "",
+  username: "",
   password: "",
   confirmpassword: "",
 });
@@ -439,8 +459,8 @@ const login = () => {
 
 #visible {
   position: absolute;
-  right: 5%;
-  top: 50%;
+  right: 10%;
+  top: 61%;
   transform: translate(0%, -50%);
   width: 2em;
   overflow: hidden;
@@ -493,8 +513,8 @@ const login = () => {
 
 .sendcodebtn {
   position: absolute;
-  right: 5%;
-  top: 50%;
+  right: 10%;
+  top: 41%;
   transform: translate(0%, -50%);
 }
 

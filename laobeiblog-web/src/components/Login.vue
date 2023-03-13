@@ -14,7 +14,7 @@
           <div>
             <input
               type="text"
-              placeholder="请输入您的邮箱或电话号码"
+              placeholder="请输入您的账号"
               name="email"
               v-model="logininfo.account"
               @focus="inputfocus($event)"
@@ -245,7 +245,7 @@ const vislblebtnclick = (e) => {
 #visible {
   position: absolute;
   right: 5%;
-  top: 50%;
+  top:40%;
   transform: translate(0%, -50%);
   width: 2em;
   overflow: hidden;

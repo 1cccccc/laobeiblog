@@ -21,6 +21,9 @@ spring:
       database: 0
       connect-timeout: 1s
 
+keyfile:
+  path: "/keys/jwt.jks"
+
 #自定义线程池
 thread:
   corePoolSize: 4
@@ -39,4 +42,10 @@ aliyun:
 ignore:
   requests:
     - "/user/login"
-    - "/article/**"
+    - "/article/list"
+    - "/articledescribe/list"
+    - "/tag/getList"
+    - "/swagger-api/**"
+    - "/swagger-ui/**"
+    - "/api-docs"
+    - "/key/**"

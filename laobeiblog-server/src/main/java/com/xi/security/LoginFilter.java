@@ -3,6 +3,7 @@ package com.xi.security;
 import com.alibaba.fastjson2.JSON;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nimbusds.jose.jwk.RSAKey;
+import com.xi.common.Constant;
 import com.xi.common.Result;
 import com.xi.common.ReturnEnum;
 import com.xi.entity.UserEntity;
@@ -35,6 +36,13 @@ public class LoginFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        String method = request.getMethod();
+        System.out.println(method);
+        if(method.equals("OPTIONS")){
+            response.setStatus(200);
+            return ;
+        }
+
         if(!isRequireAuthenication(request)){
             filterChain.doFilter(request, response);
             return;
@@ -55,7 +63,7 @@ public class LoginFilter extends OncePerRequestFilter {
         }
         //获取redis中的用户信息
         ValueOperations<String, String> operations = stringRedisTemplate.opsForValue();
-        String s = operations.get("user:" + userEntity.getUserId());
+        String s = operations.get(Constant.REDIS_USER_PREFIX.getValue()+userEntity.getUserId());
         if (StringUtils.isEmpty(s)) {
             throw new BadCredentialsException("该用户未登录");
         }

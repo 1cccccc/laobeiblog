@@ -59,24 +59,25 @@
 
           <el-col :span="2">
             <el-dropdown size="large" :hide-on-click="false">
-            <router-link to="/writing">
-              <li>
-                <svg class="icon icon-lianjie" aria-hidden="true">
-                  <use xlink:href="#icon-lianjie"></use>
-                </svg>
-                <p class="content">个人
-                  <el-icon :size="18">
-                    <CaretBottom />
-                  </el-icon>
-                </p>
-              </li>
-            </router-link>
-            <template #dropdown>
+              <router-link to="/writing">
+                <li>
+                  <svg class="icon icon-lianjie" aria-hidden="true">
+                    <use xlink:href="#icon-lianjie"></use>
+                  </svg>
+                  <p class="content">
+                    个人
+                    <el-icon :size="18">
+                      <CaretBottom />
+                    </el-icon>
+                  </p>
+                </li>
+              </router-link>
+              <template #dropdown>
                 <el-dropdown-menu>
                   <router-link to="/archivemanage">
                     <el-dropdown-item>文章管理</el-dropdown-item>
                   </router-link>
-                  <router-link  to="/releasearchive">
+                  <router-link to="/releasearchive">
                     <el-dropdown-item>发布文章</el-dropdown-item>
                   </router-link>
                   <router-link to="/usermanage">
@@ -87,7 +88,7 @@
                   </router-link>
                 </el-dropdown-menu>
               </template>
-          </el-dropdown>
+            </el-dropdown>
           </el-col>
 
           <el-col :span="2">
@@ -117,13 +118,34 @@
             </el-dropdown>
           </el-col>
 
-          <el-col :span="2">
+          <el-col :span="4" v-if="!isLogin">
             <li @click="Login()">
               <svg class="icon icon-yonghu" aria-hidden="true">
                 <use xlink:href="#icon-yonghu"></use>
               </svg>
               <p class="content">登录</p>
             </li>
+          </el-col>
+
+          <el-col :span="4" v-if="isLogin">
+            <el-dropdown size="large" :hide-on-click="false">
+              <li>
+                <svg class="icon icon-yonghu" aria-hidden="true">
+                  <use xlink:href="#icon-yonghu"></use>
+                </svg>
+                <p class="content">
+                  {{ userinfo != null ? userinfo.username : null }}
+                </p>
+              </li>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item @click="SetUp">设置</el-dropdown-item>
+                  <el-dropdown-item @click="LoginOut"
+                    >退出登录</el-dropdown-item
+                  >
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
           </el-col>
         </el-row>
       </ul>
@@ -132,37 +154,99 @@
 </template>
 
 <script setup>
-import { ref,watch } from "vue";
-import {useMainStore} from "@/store/index"
+import { ref, watch, reactive } from "vue";
+import { useMainStore } from "@/store/index";
+import topNavBarApi from "@/api/TopNavBarApi";
+import {ElMessageBox,ElMessage } from "element-plus"
+import axios from "@/axios/index"
 
-let store=useMainStore();
+let store = useMainStore();
 let TopNavBar = ref(null);
-let scrollTopLS = 0;//原来的位置
+let scrollTopLS = 0; //原来的位置
 
-const Search=()=>{
-  store.SearchVariable=!store.SearchVariable;
-}
-const Login=()=>{
-  store.LoginVariable=!store.LoginVariable;
-}
+let userinfo = reactive();
+let isLogin = ref(false);
 
-watch(()=>store.scrolltop,(newV,oldV)=>{
-  let Y = newV - oldV;
-  //屏幕向下滚动
-  if (Y > 0) {
-    TopNavBar.value.$el.classList.add("active");
-  } else {
-    //向上滚动
-    TopNavBar.value.$el.classList.remove("active");
-    if (newV > 100) {
-      TopNavBar.value.$el.style.backgroundColor = "rgba(255,255,255,.7)";
-      TopNavBar.value.$el.style.setProperty("--text-color", "#5E5B5A");
-    } else {
-      TopNavBar.value.$el.style.backgroundColor = "rgba(255,255,255,0)";
-      TopNavBar.value.$el.style.setProperty("--text-color", "#eee");
+function getUserinfo() {
+  if (!isLogin.value) {
+    let info = localStorage.getItem("u");
+    if (info) {
+      userinfo = JSON.parse(info);
+      isLogin.value = true;
     }
   }
-})
+}
+getUserinfo();
+
+
+watch(
+  () => store.userinfo,
+  (newV, oldV) => {
+    if (newV) {
+      getUserinfo();
+    } else {
+      isLogin.value = false;
+      userinfo = null;
+    }
+  }
+);
+
+const Search = () => {
+  store.SearchVariable = !store.SearchVariable;
+};
+const Login = () => {
+  store.LoginVariable = !store.LoginVariable;
+};
+
+watch(
+  () => store.scrolltop,
+  (newV, oldV) => {
+    let Y = newV - oldV;
+    //屏幕向下滚动
+    if (Y > 0) {
+      TopNavBar.value.$el.classList.add("active");
+    } else {
+      //向上滚动
+      TopNavBar.value.$el.classList.remove("active");
+      if (newV > 100) {
+        TopNavBar.value.$el.style.backgroundColor = "rgba(255,255,255,.7)";
+        TopNavBar.value.$el.style.setProperty("--text-color", "#5E5B5A");
+      } else {
+        TopNavBar.value.$el.style.backgroundColor = "rgba(255,255,255,0)";
+        TopNavBar.value.$el.style.setProperty("--text-color", "#eee");
+      }
+    }
+  }
+);
+
+const Setup = () => {};
+
+
+
+const LoginOut = async () => {
+  ElMessageBox.confirm("您确认要退出登录吗?", "提示", {
+    confirmButtonText: "确认",
+    cancelButtonText: "取消",
+    type: "warning",
+  }).then(() => {
+    let token = localStorage.getItem("token");
+
+    topNavBarApi.loginout(token).then((d) => {
+      if (d.data.data) {
+        userinfo = null;
+        store.userinfo=null
+        isLogin.value = false;
+        localStorage.removeItem("u");
+        localStorage.removeItem("token");
+
+        ElMessage({
+          type: "success",
+          message: "退出登录成功",
+        });
+      }
+    });
+  });
+};
 </script>
 
 <style scoped>

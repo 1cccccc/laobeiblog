@@ -7,6 +7,8 @@
       center
       @close="closeDialog()"
       :destroy-on-close="true"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
     >
       <div class="inputframe">
         <p>密码</p>

@@ -26,4 +26,8 @@ public interface UserApi {
     @Operation(summary = "登录接口",description = "登录接口")
     @ApiResponse(description = "返回数据",content = @Content(mediaType = "application/json",schema = @Schema(implementation = Result.class)))
     public Result login(@Parameter(description = "用户vo",schema = @Schema(implementation = UserVo.class)) UserVo vo);
+
+    @Operation(summary = "退出登录接口",description = "退出登录接口")
+    @ApiResponse(description = "返回数据",content = @Content(mediaType = "application/json",schema = @Schema(implementation = Result.class)))
+    public Result loginOut();
 }

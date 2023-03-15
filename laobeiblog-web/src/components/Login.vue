@@ -7,6 +7,8 @@
       center
       @close="closeDialog()"
       :destroy-on-close="true"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
     >
       <div id="loginfarme">
         <div class="inputframe">
@@ -20,11 +22,12 @@
               @focus="inputfocus($event)"
               @blur="blurfocus($event)"
               autocomplete="off"
+              maxlength="20"
             />
             <div class="underline"></div>
           </div>
           <el-icon
-          v-if="logininfo.account != ''"
+            v-if="logininfo.account != ''"
             size="1.7em"
             class="clearbtn"
             @mousedown="
@@ -48,6 +51,7 @@
               @blur="blurfocus($event)"
               autocomplete="off"
               maxlength="16"
+              @keydown.enter="login"
             />
             <div class="underline"></div>
           </div>
@@ -90,9 +94,12 @@
 
 <script setup>
 import { reactive, ref, watch } from "vue";
-import { Close } from "@element-plus/icons-vue";
+import { Close, SortUp } from "@element-plus/icons-vue";
 import { ElMessage } from "element-plus";
 import { useMainStore } from "@/store/index";
+import loginApi from "@/api/LoginApi";
+import keyApi from "@/api/KeyApi";
+import { JSEncrypt } from "jsencrypt";
 
 const store = useMainStore();
 
@@ -107,6 +114,10 @@ let LoginVariable = ref(false);
 watch(
   () => store.LoginVariable,
   (newV, oldV) => {
+    logininfo = reactive({
+      account: "",
+      password: "",
+    });
     LoginVariable.value = newV;
   }
 );
@@ -116,40 +127,64 @@ const closeDialog = () => {
 };
 
 //登录按钮点击事件
-const login = () => {
-  //校验账号和密码
-  let accoundtype=store.accountCheck(logininfo.account);
-
-  //密码进行加密,rsa
-
-  if(accoundtype=="email"){
-
-  }else if(accoundtype=="phone"){
-
-  }else{
+const login = async () => {
+  if (logininfo.account.length < 4) {
     ElMessage({
       type: "error",
-      message: "账号类型异常",
-      grouping: true,
-      showClose: true
-    })
+      message: "账号的长度必须在4位及以上",
+    });
+    return;
+  }
+  if (logininfo.password.length < 6) {
+    ElMessage({
+      type: "error",
+      message: "无效密码或密码为空",
+    });
+    return;
   }
 
+  //密码进行加密,rsa
+  //请求公钥
+  let publicKey;
+  await keyApi.getPublicKey().then((d) => {
+    publicKey = d.data.data;
+  });
+
+  //将密码进行加密
+  const crypt = new JSEncrypt();
+  crypt.setPublicKey(publicKey);
+  let ciphertext = crypt.encrypt(logininfo.password);
+
   //收集数据并发送请求
+  await loginApi.login(logininfo.account, ciphertext).then((d) => {
+    localStorage.setItem("token", d.data.data.token);
+    let info = JSON.stringify(d.data.data.userinfo);
+    localStorage.setItem("u", info);
+
+    store.userinfo = d.data.data.userinfo;
+  });
+
+  store.LoginVariable = false;
+};
+
+const ClearInfo = () => {
+  logininfo.account = "";
+  logininfo.password = "";
 };
 
 //打开注册界面
 const register = () => {
   store.RegisterVariable = true;
   store.LoginVariable = false;
+  ClearInfo();
 };
 
 //打开忘记密码界面
 const forgetpassword = () => {
   store.ForgetPasswordVariable = true;
   store.LoginVariable = false;
+  ClearInfo();
 };
-
 
 //输入框获得焦点事件
 const inputfocus = (e) => {
@@ -237,7 +272,7 @@ const vislblebtnclick = (e) => {
 .clearbtn {
   position: absolute;
   right: 5%;
-  top: 50%;
+  top: 22%;
   transform: translate(0%, -50%);
   cursor: pointer;
 }
@@ -245,7 +280,7 @@ const vislblebtnclick = (e) => {
 #visible {
   position: absolute;
   right: 5%;
-  top:40%;
+  top: 40%;
   transform: translate(0%, -50%);
   width: 2em;
   overflow: hidden;

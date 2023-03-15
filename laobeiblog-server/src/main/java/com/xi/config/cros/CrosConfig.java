@@ -10,13 +10,13 @@ import org.springframework.web.filter.CorsFilter;
 public class CrosConfig {
     @Bean
     public CorsFilter corsFilter() {
-        CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.addAllowedHeader("*");//允许所有请求头
-        corsConfiguration.addAllowedMethod("*");//允许所有请求方法
-        corsConfiguration.setAllowCredentials(true);//允许携带cookie
-        corsConfiguration.addAllowedOriginPattern("*");
+        CorsConfiguration config = new CorsConfiguration();
+        config.addAllowedHeader("*");//允许所有请求头
+        config.addAllowedMethod("*");//允许所有请求方法
+        config.addAllowedOriginPattern("*");//允许所有源
+        config.setAllowCredentials(true);//允许携带cookie
         UrlBasedCorsConfigurationSource urlBasedCorsConfigurationSource = new UrlBasedCorsConfigurationSource();
-        urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);//匹配所有路径
+        urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", config);//匹配所有路径
 
         return new CorsFilter(urlBasedCorsConfigurationSource);
     }

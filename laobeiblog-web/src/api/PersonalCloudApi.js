@@ -10,9 +10,9 @@ async function removeFiles(md5s){
     })
 }
 
-const api={
+const personaalCloudApi={
     getFileList,
     removeFiles
 }
 
-export default api;
+export default personaalCloudApi;

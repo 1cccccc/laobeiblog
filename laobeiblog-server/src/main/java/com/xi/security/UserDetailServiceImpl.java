@@ -25,7 +25,7 @@ public class UserDetailServiceImpl implements UserDetailsService{
         UserEntity userEntity = userService.getOne(queryMapper);
 
         if(Objects.isNull(userEntity)){
-            throw new UsernameNotFoundException("用户名或密码不正确");
+            throw new UsernameNotFoundException("用户不存在");
         }
 
         return new LoginUserEntity(userEntity);

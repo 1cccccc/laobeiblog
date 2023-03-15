@@ -25,10 +25,18 @@ public class TagController implements TagApi {
     }
 
     @Override
-    @GetMapping("/list")
-    public Result list() {
+    @GetMapping("/all")
+    public Result all() {
         List<TagEntity> tagEntityList = tagService.list();
         return Result.success().setData(tagEntityList);
+    }
+
+    @Override
+    @GetMapping("/getList")
+    public Result getList(String ids) {
+        List<TagEntity> tagEntities=tagService.getList(ids);
+
+        return Result.success().setData(tagEntities);
     }
 
     @Override

@@ -7,6 +7,8 @@
       center
       @close="closeDialog()"
       :destroy-on-close="true"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
     >
       <div id="registerfarme">
         <!-- 邮箱 -->
@@ -225,9 +227,7 @@ const store = useMainStore();
 
 //注册信息
 let registerinfo = reactive({
-  email: "",
   nickname: "",
-  phone: "",
   code: "",
   username: "",
   password: "",
@@ -236,8 +236,6 @@ let registerinfo = reactive({
 
 //注册信息校验变量
 let registerinforeg = reactive({
-  emailflag: true,
-  phoneflag: true,
   codeflag: true,
   nicknameflag: true,
   confirmpasswordflag: true,
@@ -345,7 +343,6 @@ const sendcode = () => {
 
     if (cookie.get("sendcodetimestamp") === null) {
       //请求后端发送验证码，也可以先发送验证码
-      cookie.set("sendcodetimestamp", timestamp, 60); //发送完验证码做也是可以的
       ElMessage({
         type: "success",
         message: "验证码已发送到您的手机，验证码在五分钟内有效",
@@ -381,16 +378,12 @@ const closeDialog = () => {
   store.RegisterVariable = false;
 
   registerinfo = reactive({
-    email: "",
-    phone: "",
     password: "",
     nickname: "",
     confirmpassword: "",
   });
 
   registerinforeg = reactive({
-    emailflag: true,
-    phoneflag: true,
     codeflag: true,
     nicknameflag: true,
     confirmpasswordflag: true,

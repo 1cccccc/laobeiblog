@@ -65,7 +65,7 @@
 <script setup>
 import { ref, reactive } from "vue";
 import { useMainStore } from "@/store/index.js";
-import api from "../api/PersonalCloudApi"
+import personalCloudApi from "@/api/PersonalCloudApi"
 import { sortedUniq } from "lodash";
 
 const store = useMainStore();
@@ -75,7 +75,7 @@ let srcList = reactive([]);
 const requestUrl=`http://localhost:8001/file/simpleManyUpload/1`
 
 function getFiles(){
-  api.getFileList(1).then(data=>{
+  personalCloudApi.getFileList(1).then(data=>{
   urls.push(...data.data.data)
   urls.forEach(item=>{
     srcList.push(item.ossUrl);
@@ -96,7 +96,7 @@ const checkboxChange = (value) => {
 };
 
 const removeHandler=()=>{
-  api.removeFiles(files).then(d=>{
+  personalCloudApi.removeFiles(files).then(d=>{
     getFiles();
   })
 }

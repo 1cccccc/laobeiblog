@@ -7,6 +7,8 @@
       center
       @close="closeDialog()"
       :destroy-on-close="true"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
     >
       <div id="forgetfarme">
         <div class="inputframe">
@@ -20,6 +22,7 @@
               @focus="inputfocus($event, 95)"
               @blur="blurfocus($event)"
               autocomplete="off"
+              maxlength="20"
             />
             <div class="underline"></div>
           </div>
@@ -126,15 +129,7 @@ const blurfocus = (e) => {
   ptitle.style.color = "#000";
   underline.style.width = "0%";
 
-  if (e.target.name == "account") {
-    let result = store.accountCheck(forgetpasswordinfo.account);
-    if (result == "nothing") {
-      forgetpasswordinforeg.accountflag = false;
-    } else {
-      forgetpasswordinforeg.accountflag = true;
-      forgetpasswordinfo.accounttype = result;
-    }
-  } else if (e.target.name == "code") {
+  if (e.target.name == "code") {
     forgetpasswordinforeg.codeflag = store.code_reg.test(
       forgetpasswordinfo.code
     );
@@ -228,14 +223,31 @@ const sendcode = () => {
   }
 };
 
+const ClearInfo=()=>{
+  forgetpasswordinfo=reactive({
+  account: "",
+  code: "",
+  accounttype: "",
+});
+let forgetpasswordinforeg = reactive({
+  accountflag: true,
+  codeflag: true,
+});
+}
+
 //监听store中的数据变化来决定是否打开登录框
 let ForgetPasswordVariable = ref(false);
 watch(
   () => store.ForgetPasswordVariable,
   (newV, oldV) => {
+    if(!newV){
+      ClearInfo()
+    }
     ForgetPasswordVariable.value = newV;
   }
 );
+
+
 
 //对话框关闭事件
 const closeDialog = () => {

@@ -18,8 +18,12 @@ public interface TagApi {
 
     @Operation(summary = "标签列表,直接返回全部标签不支持分页",description = "标签列表,直接返回全部标签不支持分页")
     @ApiResponse(description = "返回数据",content = @Content(mediaType = "application/json",schema = @Schema(implementation = Result.class)))
-    public Result list();
+    public Result all();
 
+
+    @Operation(summary = "根据ID获取标签，多个id通过逗号分隔",description = "根据ID获取标签，多个id通过逗号分隔")
+    @ApiResponse(description = "返回数据",content = @Content(mediaType = "application/json",schema = @Schema(implementation = Result.class)))
+    public Result getList(@Parameter(description = "标签id数组，以逗号分割") String ids);
 
     @Operation(summary = "增加标签",description = "增加标签")
     @ApiResponse(description = "返回数据",content = @Content(mediaType = "application/json",schema = @Schema(implementation = Result.class)))

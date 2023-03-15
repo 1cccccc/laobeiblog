@@ -21,8 +21,6 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
-
     @Resource
     private RequestMatcher[] requestMatchers;
 
@@ -40,7 +38,6 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http, LoginFilter loginFilter) throws Exception {
         //路径匹配
         http.authorizeHttpRequests()
-//                .requestMatchers("/user/login").permitAll()
                 .requestMatchers(requestMatchers).permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -51,7 +48,7 @@ public class SecurityConfig {
                 })
                 .accessDeniedHandler((request, response, accessDeniedException) -> {
                     response.setContentType("application/json");
-                    response.getWriter().write(JSON.toJSONString(Result.success(ReturnEnum.AUTHENTICATION_FAILD.getCode(), accessDeniedException.getMessage())));
+                    response.getWriter().write(JSON.toJSONString(Result.success(ReturnEnum.ACCESSDENIED.getCode(), ReturnEnum.ACCESSDENIED.getMessage())));
                 });
 
         //配置认证过滤器链
@@ -59,6 +56,9 @@ public class SecurityConfig {
 
         //禁用csrf
         http.csrf().disable();
+
+        //允许跨域
+        http.cors();
 
         //不通过session获取SecurityContext
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

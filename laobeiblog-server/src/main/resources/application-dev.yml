@@ -7,8 +7,9 @@ springdoc:
   swagger-ui:
     enabled: true
     path: /swagger-api #可视化界面请求路径，访问这个路径会自动跳转到swagger的文档地址
+    url: http://localhost:8001/api-docs
+    config-url: http://localhost:8001/api-docs/swagger-config
   packages-to-scan: com.xi.controller #包扫描,这里需要写你的真正接口的包也就是controller
-
 #mybatis-plus配置
 mybatis-plus:
   configuration:

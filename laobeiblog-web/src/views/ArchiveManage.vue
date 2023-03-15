@@ -42,7 +42,7 @@
 
 <script setup>
 import { ref, reactive } from "vue";
-let tableData = reactive([{}]);
+let tableData = reactive([]);
 </script>
 
 <style scoped>

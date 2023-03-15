@@ -18,6 +18,12 @@ import java.text.ParseException;
 import static com.nimbusds.jose.JWSAlgorithm.RS256;
 
 public class JwtUtils {
+    private final static String path="/keys/jwt.jks";
+    private final static String secretKey="000000";
+    private final static String keyStoreType="JKS";
+    private final static String alias="jwt";
+
+
     /**
      * 加载证书文件和RSA密钥对
      * @return RSA密钥对
@@ -25,17 +31,17 @@ public class JwtUtils {
     public static RSAKey loadJKSByClassPath(){
         try {
             //获取文件流
-            InputStream jwtJKS =  new ClassPathResource("/keys/jwt.jks").getInputStream();
+            InputStream jwtJKS =  new ClassPathResource(path).getInputStream();
 
             //文件库的类型
-            KeyStore keyStore = KeyStore.getInstance("JKS");
+            KeyStore keyStore = KeyStore.getInstance(keyStoreType);
 
             //加载文件
-            keyStore.load(jwtJKS,"000000".toCharArray());
+            keyStore.load(jwtJKS,secretKey.toCharArray());
 
             //获取证书文件中的公钥和私钥构建一个密钥对
-            RSAPublicKey publicKey = (RSAPublicKey) keyStore.getCertificate("jwt").getPublicKey();
-            RSAPrivateKey privateKey = (RSAPrivateKey) keyStore.getKey("jwt", "000000".toCharArray());
+            RSAPublicKey publicKey = (RSAPublicKey) keyStore.getCertificate(alias).getPublicKey();
+            RSAPrivateKey privateKey = (RSAPrivateKey) keyStore.getKey(alias, secretKey.toCharArray());
             RSAKey rsaKey = new RSAKey.Builder(publicKey).privateKey(privateKey).build();
             return rsaKey;
         } catch (Exception e) {

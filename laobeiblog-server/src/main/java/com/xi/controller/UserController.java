@@ -14,6 +14,7 @@ import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -53,8 +54,15 @@ public class UserController implements UserApi {
     @PostMapping("/login")
     public Result login(@RequestBody UserVo vo) {
         UserEntity userEntity = Utils.vochange(vo, new UserEntity());
-        String token = userService.login(userEntity);
+        Map<String,Object> data = userService.login(userEntity);
 
-        return Result.success().setData(token);
+        return Result.success().setData(data);
+    }
+
+    @Override
+    @GetMapping("/loginout")
+    public Result loginOut() {
+        boolean b = userService.loginOut();
+        return Result.success().setData(b);
     }
 }

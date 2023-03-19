@@ -50,7 +50,6 @@ ignore:
     - "/swagger-ui/**"
     - "/api-docs"
     - "/key/**"
-
 code:
   host: "https://wwsms.market.alicloudapi.com"
   path: "/send_sms"

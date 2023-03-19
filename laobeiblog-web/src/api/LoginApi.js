@@ -1,4 +1,6 @@
 import axios from "../axios/index"
+import defaultAxios from "axios"
+
 
 async function login(username,password){
     return await axios.post("/user/login",{
@@ -6,6 +8,7 @@ async function login(username,password){
             password: password
     })
 }
+
 
 const loginApi={
     login

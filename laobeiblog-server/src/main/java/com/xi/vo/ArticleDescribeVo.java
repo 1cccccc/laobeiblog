@@ -22,6 +22,9 @@ public class ArticleDescribeVo implements Serializable,Vo {
     @Schema(description = "文章标题")
     private String articleTitle;
 
+    @Schema(description = "文章封面图片地址")
+    private String coverUrl;
+
     @Schema(description = "是否置顶，1置顶，2不置顶")
     private Integer isTop;
 

@@ -1,10 +1,10 @@
 import axios from "../axios/index"
 
-async function getArticleDescribeList(){
-    return axios.get("/articledescribe/list",{
+async function getArticleDescribeList(page,size){
+    return await axios.get("/articledescribe/list",{
         params:{
-            page: 0,
-            size: 5
+            page: page,
+            size: size
         }
     })
 }
@@ -12,14 +12,23 @@ async function getArticleDescribeList(){
 async function getTagByIds(tagIds){
     return await axios.get(`/tag/getList`,{
         params: {
-            "ids": tagIds
+            ids: tagIds
+        }
+    })
+}
+
+async function getOtherInfo(id){
+    return await axios.get("/user/otherInfo",{
+        params:{
+            id: id
         }
     })
 }
 
 const homeApi={
     getArticleDescribeList,
-    getTagByIds
+    getTagByIds,
+    getOtherInfo
 }
 
 export default homeApi;

@@ -2,7 +2,7 @@
   <el-row id="TopNavBar" justify="space-between" ref="TopNavBar">
     <el-col :span="3">
       <router-link to="/">
-        <h2 id="Title">捞杯</h2>
+        <h2 id="Title">老北</h2>
       </router-link>
     </el-col>
     <el-col :span="12">
@@ -154,11 +154,12 @@
 </template>
 
 <script setup>
-import { ref, watch, reactive } from "vue";
+import { ref, watch, reactive, onMounted } from "vue";
 import { useMainStore } from "@/store/index";
 import topNavBarApi from "@/api/TopNavBarApi";
 import {ElMessageBox,ElMessage } from "element-plus"
 import axios from "@/axios/index"
+
 
 let store = useMainStore();
 let TopNavBar = ref(null);
@@ -177,7 +178,6 @@ function getUserinfo() {
   }
 }
 getUserinfo();
-
 
 watch(
   () => store.userinfo,

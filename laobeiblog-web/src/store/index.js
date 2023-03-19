@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { ref, reactive } from "vue";
-import keyApi from "@/api/KeyApi";
+import { JSEncrypt } from "jsencrypt";
 
 export const useMainStore = defineStore("counter", () => {
   const count = ref(0);
@@ -22,10 +22,40 @@ export const useMainStore = defineStore("counter", () => {
     return new URL(`../assets/img/${name}`, import.meta.url).href;
   };
 
+//
+function startTime() {
+  let time = setInterval(() => {
+    let token_starttime = localStorage.getItem("token_starttime");
+    if (token_starttime) {
+      let currentDate = new Date().getTime();
+
+      let result = currentDate - token_starttime;
+      if (result > 1000 * 60 * 59 * 2) {
+        alert("您的登录信息已过期，请重新登录!");
+        localStorage.removeItem("u");
+        localStorage.removeItem("token");
+        localStorage.removeItem("token_starttime");
+
+        store.userinfo = null;
+        clearInterval(time);
+      }
+    }
+  }, 1000 * 60);
+}
+
+//加密
+const publicKey="";
+
+const rsaCrypt=(str,publicKey)=>{
+  const crypt = new JSEncrypt();
+  crypt.setPublicKey(publicKey);
+  let ciphertext = crypt.encrypt(str);
+  return ciphertext;
+}
+
   //用户信息
   let userinfo = reactive();
   userinfo=JSON.parse(localStorage.getItem("u"))
-
 
   const returnObject = {
     userinfo,
@@ -41,6 +71,9 @@ export const useMainStore = defineStore("counter", () => {
     code_reg,
     scrollDown,
     getImageUrl,
+    startTime,
+    rsaCrypt,
+    publicKey
   };
   return returnObject;
 });

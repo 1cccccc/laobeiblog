@@ -1,9 +1,6 @@
 package com.xi.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,7 +18,7 @@ public class UserEntity implements Serializable {
     @TableField(exist = false)
     private final static long serialVersionUID=1L;
 
-    @TableId("user_id")
+    @TableId(value = "user_id",type = IdType.AUTO)
     private Integer userId;
 
     private String nickname;

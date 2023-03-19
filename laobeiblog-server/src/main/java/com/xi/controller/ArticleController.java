@@ -32,7 +32,10 @@ public class ArticleController implements ArticleApi {
     @Override
     @GetMapping("/search/{searchCriteria}")
     public Result search(@PathVariable("searchCriteria") String searchCriteria){
-        QueryWrapper<ArticleEntity> queryWrapper = new QueryWrapper<ArticleEntity>().like("article_title", searchCriteria).or().like("article_content", searchCriteria);
+        QueryWrapper<ArticleEntity> queryWrapper = new QueryWrapper<ArticleEntity>()
+                .like("article_title", searchCriteria)
+                .or()
+                .like("article_content", searchCriteria);
         List<ArticleEntity> list = articleService.list(queryWrapper);
         return Result.success().setData(list);
     }

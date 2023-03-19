@@ -99,7 +99,6 @@ import { ElMessage } from "element-plus";
 import { useMainStore } from "@/store/index";
 import loginApi from "@/api/LoginApi";
 import keyApi from "@/api/KeyApi";
-import { JSEncrypt } from "jsencrypt";
 
 const store = useMainStore();
 
@@ -146,22 +145,27 @@ const login = async () => {
   //密码进行加密,rsa
   //请求公钥
   let publicKey;
-  await keyApi.getPublicKey().then((d) => {
-    publicKey = d.data.data;
-  });
+  if (store.publicKey) {
+    publicKey = store.publicKey;
+  } else {
+    await keyApi.getPublicKey().then((d) => {
+      publicKey = d.data.data;
+    });
+  }
 
   //将密码进行加密
-  const crypt = new JSEncrypt();
-  crypt.setPublicKey(publicKey);
-  let ciphertext = crypt.encrypt(logininfo.password);
+  let ciphertext = store.rsaCrypt(userinfo.password,publicKey);
 
   //收集数据并发送请求
   await loginApi.login(logininfo.account, ciphertext).then((d) => {
     localStorage.setItem("token", d.data.data.token);
     let info = JSON.stringify(d.data.data.userinfo);
     localStorage.setItem("u", info);
+    localStorage.setItem("token_starttime", new Date().getTime());
 
     store.userinfo = d.data.data.userinfo;
+
+    store.startTime();
   });
 
   store.LoginVariable = false;

@@ -124,6 +124,7 @@ const closeDialog = () => {
 <style scoped>
 .searchframe {
   height: 65vh;
+  overflow: hidden;
 }
 .searchtitle {
   padding-bottom: 1.5em;

@@ -1,5 +1,5 @@
 <template>
-  <div id="Home">
+  <div id="Home" v-infinite-scroll="load">
     <el-row>
       <el-col>
         <el-row>
@@ -10,7 +10,7 @@
               ref="bg"
             />
             <div id="slogan">
-              <h1 id="title">捞杯博客</h1>
+              <h1 id="title">老北博客</h1>
               <p id="titledescribe">欲买桂花同醉酒，终不似，少年游。</p>
             </div>
             <svg
@@ -46,8 +46,8 @@
             <el-row class="label" v-for="article in articles">
               <el-col class="label-left" :span="10">
                 <img
-                  src="@/assets/img/8373377e69c3499d904877fab8c6f329.jpg"
-                  alt="8373377e69c3499d904877fab8c6f329.jpg"
+                  :src="article.coverUrl"
+                  :alt="article.coverUrl"
                   class="label-img"
                 />
               </el-col>
@@ -163,7 +163,7 @@
 <script setup>
 import { Discount } from "@element-plus/icons-vue";
 import { ElMessage } from "element-plus";
-import { reactive, ref,watch } from "vue";
+import { reactive, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useMainStore } from "@/store/index";
 import homeApi from "@/api/HomeApi";
@@ -179,10 +179,11 @@ let userinfo = reactive({
   articlenum: 0,
   classificationnum: 0,
   labelnum: 0,
-  userlogourl: "https://orange-product-my.oss-cn-shenzhen.aliyuncs.com/laobeiblog/2023-03-14/1_a2c65bad-3ee0-4b8b-80c8-1ed3d6e4a08b.jpg",
+  userlogourl:
+    "https://orange-product-my.oss-cn-shenzhen.aliyuncs.com/laobeiblog/2023-03-14/1_a2c65bad-3ee0-4b8b-80c8-1ed3d6e4a08b.jpg",
 });
-userinfo.username=store.userinfo==null?"请先登录":store.userinfo.nickname
-
+userinfo.username =
+  store.userinfo == null ? "请先登录" : store.userinfo.nickname;
 
 let aboutus = reactive({
   qq: "2952309223",
@@ -193,27 +194,58 @@ let aboutus = reactive({
 });
 
 let tags = reactive({});
+
+let page = 1;
+let size = 5;
 //获取文章描述列表
-homeApi.getArticleDescribeList().then(async (d) => {
-  articles.push(...d.data.data.list);
+function getArticleDescribeList(page, size) {
+  homeApi.getArticleDescribeList(page, size).then(async (d) => {
+    articles.push(...d.data.data.list);
 
-  let s = "";
-  articles.forEach((item) => {
-    s += item.tagId + ",";
-  });
-  s = s.substring(0, s.length - 1);
-  await homeApi.getTagByIds(s).then((d) => {
-    d.data.data.forEach((item) => {
-      if (!(item.tagId in tags)) {
-        tags[item.tagId] = item.tagName;
-      }
-    });
-
+    let s = "";
     articles.forEach((item) => {
-      item["tagName"] = tags[item.tagId];
+      s += item.tagId + ",";
+    });
+    s = s.substring(0, s.length - 1);
+    await homeApi.getTagByIds(s).then((d) => {
+      d.data.data.forEach((item) => {
+        if (!(item.tagId in tags)) {
+          tags[item.tagId] = item.tagName;
+        }
+      });
+
+      articles.forEach((item) => {
+        item["tagName"] = tags[item.tagId];
+      });
     });
   });
-});
+}
+getArticleDescribeList(page, size);
+
+//清空用户信息
+function clearUserinfo() {
+  userinfo.username = "请先登录";
+  userinfo.userslogan = "欲买桂花同载酒，终不似，少年游";
+  userinfo.articlenum = 0;
+  userinfo.classificationnum = 0;
+  userinfo.labelnum = 0;
+}
+
+
+
+//获取文章、分类、标签数
+function getOtherInfo() {
+  if (store.userinfo != null) {
+    homeApi.getOtherInfo(store.userinfo.userId).then((d) => {
+      userinfo.classificationnum = d.data.data.categoryCount;
+      userinfo.articlenum = d.data.data.articleCount;
+      userinfo.labelnum = d.data.data.tagCount;
+    });
+  } else {
+    clearUserinfo();
+  }
+}
+getOtherInfo();
 
 //添加书签按钮
 const joinbookmark = () => {
@@ -239,12 +271,17 @@ watch(
   () => store.userinfo,
   (newV, oldV) => {
     if (newV) {
-      userinfo.username=store.userinfo.nickname;
+      userinfo.username = store.userinfo.nickname;
     } else {
-      userinfo.username="请先登录"
+      clearUserinfo();
     }
+    getOtherInfo();
   }
 );
+
+function load() {
+  getArticleDescribeList(++page, size);
+}
 </script>
 
 <style scoped>
@@ -328,6 +365,7 @@ a {
   padding: 1em;
   border-radius: var(--label-border-radius);
   transition: var(--laber-transition);
+  margin-bottom: 1em;
 }
 #info:hover,
 .label:hover,

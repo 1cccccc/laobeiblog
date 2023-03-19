@@ -11,9 +11,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Tag(name = "用户管理",description = "用户管理")
 public interface UserApi {
-    @Operation(summary = "增加用户",description = "增加用户")
+    @Operation(summary = "注册用户",description = "注册用户")
     @ApiResponse(description = "返回数据",content = @Content(mediaType = "application/json",schema = @Schema(implementation = Result.class)))
-    public Result add(@Parameter(description = "用户vo",schema = @Schema(implementation = UserVo.class)) UserVo vo);
+    public Result register(@Parameter(description = "用户vo",schema = @Schema(implementation = UserVo.class)) UserVo vo);
 
     @Operation(summary = "删除用户",description = "删除用户")
     @ApiResponse(description = "返回数据",content = @Content(mediaType = "application/json",schema = @Schema(implementation = Result.class)))
@@ -22,6 +22,11 @@ public interface UserApi {
     @Operation(summary = "更改用户信息",description = "更改用户信息")
     @ApiResponse(description = "返回数据",content = @Content(mediaType = "application/json",schema = @Schema(implementation = Result.class)))
     public Result update(@Parameter(description = "用户vo",schema = @Schema(implementation = UserVo.class)) UserVo vo);
+
+    @Operation(summary = "用户标签分类和文章数",description = "用户标签分类和文章数")
+    @ApiResponse(description = "返回数据",content = @Content(mediaType = "application/json",schema = @Schema(implementation = Result.class)))
+    public Result otherInfo(int id);
+
 
     @Operation(summary = "登录接口",description = "登录接口")
     @ApiResponse(description = "返回数据",content = @Content(mediaType = "application/json",schema = @Schema(implementation = Result.class)))

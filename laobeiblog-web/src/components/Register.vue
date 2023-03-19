@@ -141,13 +141,12 @@
             />
             <div class="underline"></div>
           </div>
-          <div id="colorblock"></div>
         </div>
 
         <!-- 密码 -->
         <div class="inputframe">
           <p>密码</p>
-          <div>
+          <div style="position: relative">
             <input
               type="password"
               placeholder="请输入您的密码"
@@ -160,15 +159,16 @@
               maxlength="16"
             />
             <div class="underline"></div>
+            <div id="visible" @click="vislblebtnclick($event)">
+              <svg class="icon icon-taiyang1 novisible" aria-hidden="true">
+                <use xlink:href="#icon-taiyang1"></use>
+              </svg>
+              <svg class="icon icon-yueliang" aria-hidden="true">
+                <use xlink:href="#icon-yueliang"></use>
+              </svg>
+            </div>
           </div>
-          <div id="visible" @click="vislblebtnclick($event)">
-            <svg class="icon icon-taiyang1 novisible" aria-hidden="true">
-              <use xlink:href="#icon-taiyang1"></use>
-            </svg>
-            <svg class="icon icon-yueliang" aria-hidden="true">
-              <use xlink:href="#icon-yueliang"></use>
-            </svg>
-          </div>
+
           <p>
             密码由6-16位的数字、英文字母和特殊字符组成，请使用至少两种类型组合
           </p>
@@ -178,7 +178,7 @@
         <!-- 确认密码 -->
         <div class="inputframe">
           <p>确认密码</p>
-          <div>
+          <div style="position: relative">
             <input
               type="password"
               placeholder="请再次输入您的密码"
@@ -189,26 +189,28 @@
               maxlength="16"
             />
             <div class="underline"></div>
+            <div id="visible" @click="vislblebtnclick($event)">
+              <svg class="icon icon-taiyang1 novisible" aria-hidden="true">
+                <use xlink:href="#icon-taiyang1"></use>
+              </svg>
+              <svg class="icon icon-yueliang" aria-hidden="true">
+                <use xlink:href="#icon-yueliang"></use>
+              </svg>
+            </div>
           </div>
-          <div id="visible" @click="vislblebtnclick($event)">
-            <svg class="icon icon-taiyang1 novisible" aria-hidden="true">
-              <use xlink:href="#icon-taiyang1"></use>
-            </svg>
-            <svg class="icon icon-yueliang" aria-hidden="true">
-              <use xlink:href="#icon-yueliang"></use>
-            </svg>
-          </div>
+
           <p v-if="!registerinforeg.confirmpasswordflag">
             两次输入的密码不一致
           </p>
+          <div id="colorblock"></div>
         </div>
 
-        <button id="registerbtn" @click="login">注册</button>
+        <button id="registerbtn" @click="register">注册</button>
       </div>
 
       <div class="toLogin">
         <span>已有账号？</span>
-        <span @click="login()" style="color: #2e86de;">登录</span>
+        <span @click="login()" style="color: #2e86de">登录</span>
       </div>
     </el-dialog>
   </div>
@@ -219,6 +221,8 @@ import { reactive, ref, watch } from "vue";
 import { useMainStore } from "@/store/index";
 import { getCurrentInstance } from "vue";
 import { ElMessage } from "element-plus";
+import registerApi from "../api/RegisterApi";
+import keyApi from "../api/KeyApi"
 
 const CurrentInstance = getCurrentInstance();
 const InstanceGlobalProp = CurrentInstance.appContext.config.globalProperties;
@@ -227,17 +231,21 @@ const store = useMainStore();
 
 //注册信息
 let registerinfo = reactive({
-  nickname: "",
-  code: "",
-  username: "",
-  password: "",
-  confirmpassword: "",
+  nickname: "orange",
+  code: "000000",
+  email: "111111111@qq.com",
+  phone: "16673514910",
+  username: "2952309223",
+  password: "000000",
+  confirmpassword: "000000",
+  loginType: 1,
 });
 
 //注册信息校验变量
 let registerinforeg = reactive({
+  emailflag: true,
+  phoneflag: true,
   codeflag: true,
-  nicknameflag: true,
   confirmpasswordflag: true,
 });
 
@@ -395,6 +403,53 @@ const login = () => {
   store.LoginVariable = true;
   store.RegisterVariable = false;
 };
+
+const register = async () => {
+  let flag=false;
+  //判断注册信息
+  for (let item in registerinfo) {
+    if (registerinfo[item] == "") {
+      ElMessage({
+        type: "error",
+        message: "您有信息未填写！",
+      });
+
+      return;
+    }
+  }
+
+  for (let item in registerinforeg) {
+    if (!registerinforeg[item]) {
+      ElMessage({
+        type: "error",
+        message: "信息有误！",
+      });
+
+      return;
+    }
+    flag = true;
+  }
+
+  if (flag) {
+    let publicKey;
+    if (store.publicKey) {
+      publicKey = store.publicKey;
+    } else {
+      await keyApi.getPublicKey().then((d) => {
+        publicKey = d.data.data;
+      });
+    }
+
+    let rsaPassword = store.rsaCrypt(registerinfo.password,publicKey);
+    console.log(rsaPassword);
+
+    await registerApi.register(registerinfo, rsaPassword).then((d) => {
+      console.log(d);
+    });
+  }
+
+  // store.RegisterVariable = false;
+};
 </script>
 
 <style scoped>
@@ -407,6 +462,7 @@ const login = () => {
   --input-font-size: 1.25em;
   --input-padding: 0.2em;
   --input-width: 95%;
+  position: relative;
 }
 .underline {
   width: 0%;
@@ -463,7 +519,7 @@ const login = () => {
   font-size: 2em;
   position: absolute;
   left: 0;
-  top: 0;
+  top: -20%;
   cursor: pointer;
 }
 .novisible {

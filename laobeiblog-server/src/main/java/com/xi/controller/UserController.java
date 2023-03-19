@@ -1,16 +1,14 @@
 package com.xi.controller;
 
-import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.nimbusds.jose.JOSEException;
 import com.xi.common.Result;
 import com.xi.common.Utils;
 import com.xi.entity.UserEntity;
-import com.xi.security.JwtUtils;
 import com.xi.service.UserService;
 import com.xi.swagger.api.UserApi;
 import com.xi.vo.UserVo;
 import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -23,14 +21,14 @@ public class UserController implements UserApi {
     UserService userService;
 
     @Override
-    @PostMapping("/add")
-    public Result add(@RequestBody UserVo vo) {
+    @PostMapping("/register")
+    public Result register(@Valid @RequestBody UserVo vo) {
         UserEntity userEntity = Utils.vochange(vo, new UserEntity());
         userEntity.setLastLoginTime(new Date());
 
-        boolean b = userService.save(userEntity);
+        String s = userService.register(userEntity);
 
-        return Result.success().setData(b);
+        return Result.success().setData(s);
     }
 
     @Override
@@ -48,6 +46,14 @@ public class UserController implements UserApi {
         boolean b = userService.updateById(userEntity);
 
         return Result.success().setData(b);
+    }
+
+    @Override
+    @GetMapping("/otherInfo")
+    public Result otherInfo(int id) {
+        Map<String,Object> map=userService.otherInfo(id);
+
+        return Result.success().setData(map);
     }
 
     @Override

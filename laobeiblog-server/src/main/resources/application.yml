@@ -12,7 +12,6 @@ spring:
     multipart:
       max-file-size: 20MB #文件上传单个文件限制大小
       max-request-size: 100MB #文件上传多个文件限制大小
-
   # redis
   data:
     redis:
@@ -33,8 +32,8 @@ thread:
 
 aliyun:
   endpoint: "https://oss-cn-shenzhen.aliyuncs.com"
-  accessKeyId: "LTAI5tLY81D64Gq1ZkMFUJ7x"
-  accessKeySecret: "xbO5zzGJbCiASXeJ2EFduiKjEP5h38"
+  accessKeyId: "xxx"
+  accessKeySecret: "xxx"
   bucketName: "orange-product-my"
   host: "https://orange-product-my.oss-cn-shenzhen.aliyuncs.com"
   dir: "laobeiblog"
@@ -42,6 +41,8 @@ aliyun:
 ignore:
   requests:
     - "/user/login"
+    - "/user/register"
+    - "/code/**"
     - "/article/list"
     - "/articledescribe/list"
     - "/tag/getList"
@@ -49,3 +50,10 @@ ignore:
     - "/swagger-ui/**"
     - "/api-docs"
     - "/key/**"
+
+code:
+  host: "https://wwsms.market.alicloudapi.com"
+  path: "/send_sms"
+  method: "POST"
+  appcode: "xxx"
+  templateId: "TPL_0000"

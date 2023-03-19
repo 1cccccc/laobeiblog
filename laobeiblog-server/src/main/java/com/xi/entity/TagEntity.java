@@ -1,9 +1,6 @@
 package com.xi.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,7 +17,7 @@ import java.util.Date;
 public class TagEntity implements Serializable {
     @TableField(exist = false)
     private final static long SerialVersionUID=1L;
-    @TableId("tag_id")
+    @TableId(value = "tag_id",type = IdType.AUTO)
     private Integer tagId;
     private String tagName;
     private Integer articleNum;

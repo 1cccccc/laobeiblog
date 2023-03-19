@@ -1,16 +1,24 @@
 package com.xi.service.Impl;
 
 import com.alibaba.fastjson2.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.xi.common.Constant;
 import com.xi.common.RsaUtils;
 import com.xi.common.Utils;
+import com.xi.entity.ArticleEntity;
+import com.xi.entity.CategoryEntity;
+import com.xi.entity.TagEntity;
 import com.xi.entity.UserEntity;
 import com.xi.mapper.UserMapper;
 import com.xi.security.JwtUtils;
 import com.xi.security.LoginUserEntity;
+import com.xi.service.ArticleService;
+import com.xi.service.CategoryService;
+import com.xi.service.TagService;
 import com.xi.service.UserService;
 import jakarta.annotation.Resource;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -19,7 +27,10 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -32,6 +43,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
 
     @Resource
     StringRedisTemplate stringRedisTemplate;
+
+    @Resource
+    PasswordEncoder passwordEncoder;
+
+    @Resource
+    ArticleService articleService;
+    @Resource
+    TagService tagService;
+
+    @Resource
+    CategoryService categoryService;
 
     private final RSAKey rsaKey=JwtUtils.loadJKSByClassPath();
 
@@ -90,5 +112,44 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
         stringRedisTemplate.delete(Constant.REDIS_USER_PREFIX.getValue() +userId);
 
         return true;
+    }
+
+    @Override
+    public Map<String, Object> otherInfo(int id) {
+        long articleCount = articleService.count(new QueryWrapper<ArticleEntity>().eq("user_id",id));
+        long tagCount = tagService.count(new LambdaQueryWrapper<TagEntity>().eq(TagEntity::getUserId, id));
+        long categoryCount = categoryService.count(new LambdaQueryWrapper<CategoryEntity>().eq(CategoryEntity::getUserId, id));
+
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("articleCount",articleCount);
+        map.put("tagCount",tagCount);
+        map.put("categoryCount",categoryCount);
+
+        return map;
+    }
+
+    @Override
+    public String register(UserEntity userEntity) {
+        //判断验证码是否有效
+
+        String username=userEntity.getUsername();
+        //判断用户是否已经存在
+        UserEntity entity = this.getOne(new LambdaQueryWrapper<UserEntity>().eq(UserEntity::getUsername, username));
+        if(!Objects.isNull(entity)){
+            return "用户名已存在";
+        }
+
+        //对密码进行rsa解密
+        try {
+            //rsa解密后进行md5加密
+            String password=passwordEncoder.encode(RsaUtils.privateDecrypt(userEntity.getPassword(),rsaKey));
+            userEntity.setPassword(password);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        this.save(userEntity);
+
+        return "注册成功";
     }
 }

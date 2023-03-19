@@ -15,3 +15,9 @@ mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
+# 邮件
+spring:
+  mail:
+    host: smtp.163.com
+    username: lb16673514910@163.com
+    password: xxx

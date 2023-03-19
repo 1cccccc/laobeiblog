@@ -56,6 +56,12 @@ watch(
     top = scrollTop.scrollTop;
     store.scrolltop=scrollTop.scrollTop;
 };
+
+let token_starttime=localStorage.getItem("token_starttime");
+if(token_starttime){
+  store.startTime();
+}
+
 </script>
 
 <style>

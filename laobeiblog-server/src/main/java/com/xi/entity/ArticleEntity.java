@@ -18,7 +18,7 @@ public class ArticleEntity implements Serializable {
     @TableField(exist = false)
     private static final long  serialVersionUID=1L;
 
-    @TableId(value = "article_id")
+    @TableId(value = "article_id",type = IdType.AUTO)
     private Integer articleId;
     private String articleTitle;
     private String articleContent;

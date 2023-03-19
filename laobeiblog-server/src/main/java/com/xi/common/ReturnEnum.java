@@ -5,7 +5,8 @@ public enum ReturnEnum {
     ERROR(400,"error"),
     NOTALLSUCCESSED(206,"有部分文件未删除成功，请稍后重试"),
     ACCESSDENIED(403,"拒绝访问受保护的资源，您没有该权限"),
-    AUTHENTICATION_FAILD(403,"认证不通过");
+    AUTHENTICATION_FAILD(403,"认证不通过"),
+    ARGUMENTNOTVALID(10001,"参数校验错误");
 
     private Integer code;
     private String message;

@@ -36,13 +36,6 @@ public class LoginFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String method = request.getMethod();
-        System.out.println(method);
-        if(method.equals("OPTIONS")){
-            response.setStatus(200);
-            return ;
-        }
-
         if(!isRequireAuthenication(request)){
             filterChain.doFilter(request, response);
             return;

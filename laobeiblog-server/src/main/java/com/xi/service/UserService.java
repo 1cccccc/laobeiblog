@@ -9,4 +9,8 @@ public interface UserService extends IService<UserEntity> {
     Map login(UserEntity userEntity);
 
     boolean loginOut();
+
+    Map<String, Object> otherInfo(int id);
+
+    String register(UserEntity userEntity);
 }

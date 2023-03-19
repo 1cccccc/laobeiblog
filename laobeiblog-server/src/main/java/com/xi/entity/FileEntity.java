@@ -1,5 +1,6 @@
 package com.xi.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
@@ -17,7 +18,7 @@ import java.util.Objects;
 @Accessors(chain = true)
 @TableName("file")
 public class FileEntity {
-    @TableId("file_id")
+    @TableId(value = "file_id",type = IdType.AUTO)
     private Integer fileId;
     private String fileMd5;
     private Integer userId;

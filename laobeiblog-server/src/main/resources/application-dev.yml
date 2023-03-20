@@ -19,5 +19,5 @@ mybatis-plus:
 spring:
   mail:
     host: smtp.163.com
-    username: lb16673514910@163.com
+    username: xxx
     password: xxx

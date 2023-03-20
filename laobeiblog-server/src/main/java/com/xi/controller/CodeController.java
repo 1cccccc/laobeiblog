@@ -28,4 +28,11 @@ public class CodeController implements CodeApi {
         codeService.sendEmailCode(email);
         return Result.success();
     }
+
+    @Override
+    @GetMapping("/getQRCode")
+    public Result getQRCode(String content) {
+        String qrcode=codeService.getQRCode(content);
+        return Result.success().setData(qrcode);
+    }
 }

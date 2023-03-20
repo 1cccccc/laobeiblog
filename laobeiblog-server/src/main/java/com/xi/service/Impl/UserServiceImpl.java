@@ -21,6 +21,7 @@ import com.xi.service.CategoryService;
 import com.xi.service.TagService;
 import com.xi.service.UserService;
 import jakarta.annotation.Resource;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -131,6 +132,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> impleme
     @Override
     public String register(UserEntity userEntity) {
         //判断验证码是否有效
+        String phone = userEntity.getPhone();
+        String s = stringRedisTemplate.opsForValue().get(Constant.CODEPREFIX + phone);
+        if(StringUtils.isBlank(s)){
+            return "验证码已失效";
+        }
 
         String username=userEntity.getUsername();
         //判断用户是否已经存在

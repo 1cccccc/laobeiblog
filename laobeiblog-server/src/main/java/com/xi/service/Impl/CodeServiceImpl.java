@@ -2,6 +2,7 @@ package com.xi.service.Impl;
 
 import com.xi.common.CodeUtils;
 import com.xi.common.Constant;
+import com.xi.common.QRCodeUtil;
 import com.xi.entity.ToEmail;
 import com.xi.service.CodeService;
 import jakarta.annotation.Resource;
@@ -84,5 +85,12 @@ public class CodeServiceImpl implements CodeService {
 
             operations.set(Constant.EMAILPREFIX.getValue()+email,substring,5, TimeUnit.MINUTES);
         },threadPoolExecutor);
+    }
+
+    @Override
+    public String getQRCode(String content) {
+        String qrCode = QRCodeUtil.getBase64QRCode(content);
+
+        return qrCode;
     }
 }

@@ -46,10 +46,11 @@ ignore:
     - "/article/list"
     - "/articledescribe/list"
     - "/tag/getList"
-    - "/swagger-api/**"
     - "/swagger-ui/**"
     - "/api-docs"
     - "/key/**"
+    - "/ws/**"
+    - "/v3/api-docs/**"
 code:
   host: "https://wwsms.market.alicloudapi.com"
   path: "/send_sms"

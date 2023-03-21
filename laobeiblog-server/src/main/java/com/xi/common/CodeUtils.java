@@ -45,6 +45,7 @@ public class CodeUtils {
              * https://github.com/aliyun/api-gateway-demo-sign-java/blob/master/pom.xml
              */
             HttpResponse response = HttpUtils.doPost(codeUtilsProperties.getHost(), codeUtilsProperties.getPath(), codeUtilsProperties.getMethod(), headers, querys, bodys);
+            System.out.println(response.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
